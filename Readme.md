@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Andrey Sviridyuk](https://up.htmlacademy.ru/react/10/user/597285).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Карастелев](https://htmlacademy.ru/profile/id202794).
 
 ---
 
