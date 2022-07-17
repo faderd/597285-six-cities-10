@@ -5,13 +5,15 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
+import { Offers } from '../../types/offer';
 import PrivateRoute from '../private-route/private-route';
 
 type AppScreenProps = {
   offersCount: number;
+  offers: Offers;
 }
 
-function App({ offersCount }: AppScreenProps): JSX.Element {
+function App({ offersCount, offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
