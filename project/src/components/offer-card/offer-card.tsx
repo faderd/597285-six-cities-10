@@ -2,13 +2,14 @@ import { Offer } from '../../types/offer';
 
 type OfferCardProps = {
   offer: Offer;
+  onMouseOver: () => void;
 };
 
-function OfferCard({ offer }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, onMouseOver }: OfferCardProps): JSX.Element {
   const isItFavorite = (isFavorite: boolean): string => isFavorite ? 'place-card__bookmark-button--active ' : '';
 
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseOver={onMouseOver}>
       {
         offer.isPremium
           ? (<div className="place-card__mark"><span>Premium</span></div>)
