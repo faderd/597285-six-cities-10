@@ -1,6 +1,11 @@
 import { Logo } from '../../components/logo/logo';
+import { Offers } from '../../types/offer';
 
-function FavoritesScreen(): JSX.Element {
+type FavoritesScreenProps = {
+  favorites: Offers;
+}
+
+function FavoritesScreen({favorites}: FavoritesScreenProps): JSX.Element {
   return (
     <div className="page">
       <header className="header">
