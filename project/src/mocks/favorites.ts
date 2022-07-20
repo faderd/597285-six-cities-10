@@ -28,7 +28,7 @@ export const favorites: Offers = [
       'https://10.react.pages.academy/static/hotel/3.jpg'
     ],
     title: 'Nice, cozy, warm big bed apartment',
-    isFavorite: false,
+    isFavorite: true,
     isPremium: true,
     rating: 1,
     type: 'house',
@@ -86,7 +86,7 @@ export const favorites: Offers = [
       'https://10.react.pages.academy/static/hotel/7.jpg'
     ],
     title: 'Loft Studio in the Central Area',
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 3.2,
     type: 'house',
@@ -145,7 +145,7 @@ export const favorites: Offers = [
       'https://10.react.pages.academy/static/hotel/20.jpg'
     ],
     title: 'Loft Studio in the Central Area',
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 2.4,
     type: 'house',
@@ -204,7 +204,7 @@ export const favorites: Offers = [
       'https://10.react.pages.academy/static/hotel/16.jpg'
     ],
     title: 'Penthouse, 4-5 rooms + 5 balconies',
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 2.5,
     type: 'room',
@@ -257,7 +257,7 @@ export const favorites: Offers = [
       'https://10.react.pages.academy/static/hotel/13.jpg'
     ],
     title: 'Loft Studio in the Central Area',
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 4.4,
     type: 'room',

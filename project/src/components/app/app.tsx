@@ -38,7 +38,7 @@ function App({ offersCount, offers }: AppScreenProps): JSX.Element {
         />
 
         <Route
-          path={AppRoute.Room}
+          path={`${AppRoute.Room}/:id`}
           element={<PropertyScreen />}
         />
 
