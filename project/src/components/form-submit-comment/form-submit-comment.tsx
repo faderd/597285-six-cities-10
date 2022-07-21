@@ -1,59 +1,47 @@
+import React from 'react';
 import { ChangeEvent, useState, FormEvent } from 'react';
+import { RATING_LEVELS } from '../../const';
 
-type FormSubmitCommentProps = {
-  onComment: (commentFormState: string, rateFormState: number) => void;
+type ReviewFormProps = {
+  onSubmit: (commentFormState: string, ratingFormState: number) => void;
 };
-function FormSubmitComment({onComment}: FormSubmitCommentProps): JSX.Element {
-  const [commentFormState, setCommentFormState] = useState<string>('');
-  const [rateFormState, setRateFormState] = useState<number>(0);
 
-  // eslint-disable-next-line no-console
-  console.log(commentFormState, rateFormState);
+function ReviewForm({ onSubmit }: ReviewFormProps): JSX.Element {
+  const [commentFormState, setCommentFormState] = useState('');
+  const [ratingFormState, setRatingFormState] = useState(0);
 
-  const rateChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => setRateFormState(() => +target.value);
+  const ratingChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => setRatingFormState(() => +target.value);
+
+  const getRatingStarsContent = () => {
+    const content = [];
+
+    for (let i = 5; i > 0; i--) {
+      content.push(
+        <>
+          <input className="form__rating-input visually-hidden" name="rating" value={`${i}`} id={`${i}-stars`} type="radio" onChange={ratingChangeHandler} />
+          <label htmlFor={`${i}-stars`} className="reviews__rating-label form__rating-label" title={`${RATING_LEVELS[i - 1]}`}>
+            <svg className="form__star-image" width="37" height="33">
+              <use xlinkHref="#icon-star"></use>
+            </svg>
+          </label>
+        </>
+      );
+    }
+
+    return content;
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      onComment(commentFormState, rateFormState);
+      onSubmit(commentFormState, ratingFormState);
     }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" onChange={rateChangeHandler} />
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" onChange={rateChangeHandler} />
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {getRatingStarsContent()}
 
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" onChange={rateChangeHandler} />
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" onChange={rateChangeHandler} />
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" onChange={rateChangeHandler} />
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"
         onInput={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
@@ -70,4 +58,4 @@ function FormSubmitComment({onComment}: FormSubmitCommentProps): JSX.Element {
   );
 }
 
-export default FormSubmitComment;
+export default ReviewForm;

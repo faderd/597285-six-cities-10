@@ -6,11 +6,11 @@ import { AppRoute } from '../../const';
 import { Offers } from '../../types/offer';
 
 type FavoritesScreenProps = {
-  favorites: Offers;
+  offers: Offers;
 };
 
-function FavoritesScreen({ favorites }: FavoritesScreenProps): JSX.Element {
-  if (!favorites) {
+function FavoritesScreen({ offers }: FavoritesScreenProps): JSX.Element {
+  if (!offers) {
     return (<FavoritesEmpty />);
   }
 
@@ -29,7 +29,7 @@ function FavoritesScreen({ favorites }: FavoritesScreenProps): JSX.Element {
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">{favorites.length}</span>
+                    <span className="header__favorite-count">{offers.length}</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
@@ -49,7 +49,7 @@ function FavoritesScreen({ favorites }: FavoritesScreenProps): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
 
 
-            <FavoriteLocationList favorites={favorites} />
+            <FavoriteLocationList offers={offers} />
 
           </section>
         </div>

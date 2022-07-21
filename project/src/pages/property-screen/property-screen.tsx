@@ -1,4 +1,4 @@
-import FormSubmitComment from '../../components/form-submit-comment/form-submit-comment';
+import ReviewForm from '../../components/form-submit-comment/form-submit-comment';
 import { Logo } from '../../components/logo/logo';
 
 function PropertyScreen(): JSX.Element {
@@ -177,7 +177,7 @@ function PropertyScreen(): JSX.Element {
                   </li>
                 </ul>
 
-                <FormSubmitComment onComment={() => { throw new Error('Function "onComment" isn\'t implemented.'); }}/>
+                <ReviewForm onSubmit={() => { throw new Error('Function "onComment" isn\'t implemented.'); }}/>
 
               </section>
             </div>
