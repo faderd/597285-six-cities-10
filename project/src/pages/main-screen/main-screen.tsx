@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
@@ -10,6 +11,8 @@ type MainScreenProps = {
 }
 
 function MainScreen({ offersCount, offers }: MainScreenProps): JSX.Element {
+  const [activeCardId, setActiveCardId] = useState<number>();
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -100,11 +103,11 @@ function MainScreen({ offersCount, offers }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
 
-              <OffersList offers={offers} />
+              <OffersList offers={offers} setActiveCardId={setActiveCardId} />
 
             </section>
             <div className="cities__right-section">
-              <Map city={MapStartLocation} points={offers} selectedPoint={offers[1]} />
+              <Map city={MapStartLocation} points={offers} selectedPointId={activeCardId} />
             </div>
           </div>
         </div>

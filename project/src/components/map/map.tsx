@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
-import { Location, Offer, Offers } from '../../types/offer';
+import { Location, Offers } from '../../types/offer';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: Location;
   points: Offers;
-  selectedPoint: Offer | undefined;
+  selectedPointId: number | undefined;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -23,7 +23,7 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-function Map({ city, points, selectedPoint }: MapProps): JSX.Element {
+function Map({ city, points, selectedPointId }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -35,14 +35,14 @@ function Map({ city, points, selectedPoint }: MapProps): JSX.Element {
             lat: point.location.latitude,
             lng: point.location.longitude,
           }, {
-            icon: (selectedPoint !== undefined && point.title === selectedPoint.title)
+            icon: (selectedPointId !== undefined && point.id === selectedPointId)
               ? currentCustomIcon
               : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPointId]);
 
   return (
     <section
