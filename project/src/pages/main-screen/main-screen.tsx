@@ -103,11 +103,11 @@ function MainScreen({ offersCount, offers }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
 
-              <OffersList offers={offers} setActiveCardId={setActiveCardId} />
+              <OffersList offers={offers} onActiveCardIdChange={setActiveCardId} />
 
             </section>
             <div className="cities__right-section">
-              <Map city={MapStartLocation} points={offers} selectedPointId={activeCardId} />
+              <Map city={MapStartLocation} offers={offers} selectedOfferId={activeCardId} />
             </div>
           </div>
         </div>
