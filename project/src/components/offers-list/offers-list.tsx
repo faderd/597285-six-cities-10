@@ -1,21 +1,19 @@
-import { Offers } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 import OfferCard from '../offer-card/offer-card';
 
-const NUMBER_OF_CARDS = 4;
-
 type OffersListProps = {
-  offers: Offers;
   onActiveCardIdChange: (id: number) => void;
 };
 
-function OffersList({ offers, onActiveCardIdChange }: OffersListProps): JSX.Element {
 
-  const offersForRender: Offers = offers.slice(0, NUMBER_OF_CARDS);
+function OffersList({ onActiveCardIdChange }: OffersListProps): JSX.Element {
+
+  const offersList = useAppSelector((state) => state.offersList);
 
   return (
     <div className="cities__places-list places__list tabs__content">
       {
-        offersForRender.map((offer) => (
+        offersList.map((offer) => (
           <OfferCard key={offer.id} offer={offer} onMouseOver={() => onActiveCardIdChange(offer.id)} />
         ))
       }

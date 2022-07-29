@@ -10,17 +10,16 @@ import { Offers } from '../../types/offer';
 import PrivateRoute from '../private-route/private-route';
 
 type AppScreenProps = {
-  offersCount: number;
   offers: Offers;
 }
 
-function App({ offersCount, offers }: AppScreenProps): JSX.Element {
+function App({ offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen offersCount={offersCount} offers={offers} />}
+          element={<MainScreen offers={offers} />}
         />
 
         <Route
