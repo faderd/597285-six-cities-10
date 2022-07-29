@@ -1,25 +1,26 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch } from '../../hooks';
 import { favorites } from '../../mocks/favorites';
+import { offers } from '../../mocks/offers';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
-import { Offers } from '../../types/offer';
+import { storeOffers } from '../../store/action';
 import PrivateRoute from '../private-route/private-route';
 
-type AppScreenProps = {
-  offers: Offers;
-}
+function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(storeOffers(offers));
 
-function App({ offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen offers={offers} />}
+          element={<MainScreen />}
         />
 
         <Route

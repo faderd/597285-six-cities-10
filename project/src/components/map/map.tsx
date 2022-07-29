@@ -3,6 +3,8 @@ import useMap from '../../hooks/use-map/use-map';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks';
+import { getOffersFromCity } from '../../store/selectors';
+import { Offer } from '../../types/offer';
 
 
 const URL_MARKER_DEFAULT = '../img/pin.svg';
@@ -28,7 +30,7 @@ const markerGroup = leaflet.layerGroup();
 
 function Map({ selectedOfferId }: MapProps): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
-  const offersList = useAppSelector((state) => state.offersList);
+  const offersList = useAppSelector(getOffersFromCity);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity.location);
@@ -43,7 +45,7 @@ function Map({ selectedOfferId }: MapProps): JSX.Element {
         lng: currentCity.location.longitude,
       }, currentCity.location.zoom);
 
-      offersList.forEach((offer) => {
+      offersList.forEach((offer: Offer) => {
         leaflet
           .marker({
             lat: offer.location.latitude,

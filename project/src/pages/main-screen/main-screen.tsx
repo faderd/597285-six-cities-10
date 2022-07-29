@@ -5,15 +5,11 @@ import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { Offers } from '../../types/offer';
+import { getOffersCountFromCity } from '../../store/selectors';
 
-type MainScreenProps = {
-  offers: Offers;
-}
-
-function MainScreen({ offers }: MainScreenProps): JSX.Element {
+function MainScreen(): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<number>();
-  const offersCount = useAppSelector((state) => state.offersList).length;
+  const offersCount = useAppSelector(getOffersCountFromCity);
 
   return (
     <div className="page page--gray page--main">
@@ -49,7 +45,7 @@ function MainScreen({ offers }: MainScreenProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationsList offers={offers} />
+          <LocationsList />
         </div>
         <div className="cities">
           <div className="cities__places-container container">

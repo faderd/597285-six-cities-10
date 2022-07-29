@@ -2,25 +2,19 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Location } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { cityChange, offersListFill } from '../../store/action';
+import { changeActiveCity } from '../../store/action';
+import { getCurrentCity } from '../../store/selectors';
 import { City, Offers } from '../../types/offer';
 import { AppDispatch } from '../../types/state';
-import { getOffersFromCity } from '../../utils';
-
-type LocationListProps = {
-  offers: Offers;
-}
 
 const mouseClickHandler = (city: City, dispatch: AppDispatch, offers: Offers) => (evt: MouseEvent<HTMLAnchorElement>) => {
   evt.preventDefault();
-  dispatch(cityChange(city));
-
-  const offersList: Offers = getOffersFromCity(offers, city);
-  dispatch(offersListFill(offersList));
+  dispatch(changeActiveCity(city));
 };
 
-function LocationsList({ offers }: LocationListProps): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
+function LocationsList(): JSX.Element {
+  const currentCity = useAppSelector(getCurrentCity);
+  const offers = useAppSelector((state) => state.offers);
   const dispatch = useAppDispatch();
 
   const getLocationsList = () => {
