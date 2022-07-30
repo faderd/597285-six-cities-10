@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
-import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
-import { Location, Offers } from '../../types/offer';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../hooks';
+import { getOffersFromCity } from '../../store/selectors';
+import { Offer } from '../../types/offer';
+
+
+const URL_MARKER_DEFAULT = '../img/pin.svg';
+const URL_MARKER_CURRENT = '../img/pin-active.svg';
 
 type MapProps = {
-  city: Location;
-  points: Offers;
-  selectedPointId: number | undefined;
+  selectedOfferId?: number;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -23,26 +26,39 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-function Map({ city, points, selectedPointId }: MapProps): JSX.Element {
+const markerGroup = leaflet.layerGroup();
+
+function Map({ selectedOfferId }: MapProps): JSX.Element {
+  const currentCity = useAppSelector((state) => state.city);
+  const offersList = useAppSelector(getOffersFromCity);
+
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, currentCity.location);
 
   useEffect(() => {
     if (map) {
-      points.forEach((point) => {
+      markerGroup.clearLayers();
+      markerGroup.addTo(map);
+
+      map.setView({
+        lat: currentCity.location.latitude,
+        lng: currentCity.location.longitude,
+      }, currentCity.location.zoom);
+
+      offersList.forEach((offer: Offer) => {
         leaflet
           .marker({
-            lat: point.location.latitude,
-            lng: point.location.longitude,
+            lat: offer.location.latitude,
+            lng: offer.location.longitude,
           }, {
-            icon: (selectedPointId !== undefined && point.id === selectedPointId)
+            icon: (selectedOfferId !== undefined && offer.id === selectedOfferId)
               ? currentCustomIcon
               : defaultCustomIcon,
           })
-          .addTo(map);
+          .addTo(markerGroup);
       });
     }
-  }, [map, points, selectedPointId]);
+  }, [currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom, map, offersList, selectedOfferId]);
 
   return (
     <section

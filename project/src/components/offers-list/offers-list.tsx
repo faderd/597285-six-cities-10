@@ -1,22 +1,22 @@
-import { Offers } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
+import { getOffersFromCity } from '../../store/selectors';
+import { Offer } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
-const NUMBER_OF_CARDS = 4;
-
 type OffersListProps = {
-  offers: Offers;
-  setActiveCardId: (arg0: number) => void;
+  onActiveCardIdChange: (id: number) => void;
 };
 
-function OffersList({ offers, setActiveCardId }: OffersListProps): JSX.Element {
 
-  const offersForRender: Offers = offers.slice(0, NUMBER_OF_CARDS);
+function OffersList({ onActiveCardIdChange }: OffersListProps): JSX.Element {
+
+  const offersList = useAppSelector(getOffersFromCity);
 
   return (
     <div className="cities__places-list places__list tabs__content">
       {
-        offersForRender.map((offer) => (
-          <OfferCard key={offer.id} offer={offer} onMouseOver={() => setActiveCardId(offer.id)} />
+        offersList.map((offer: Offer) => (
+          <OfferCard key={offer.id} offer={offer} onMouseOver={() => onActiveCardIdChange(offer.id)} />
         ))
       }
     </div>
