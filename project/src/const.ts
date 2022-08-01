@@ -69,3 +69,7 @@ export const Location = {
     }
   },
 };
+
+export enum APIRoute {
+  Offers = '/hotels',
+}

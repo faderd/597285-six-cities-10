@@ -4,17 +4,16 @@ import { Location } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeActiveCity } from '../../store/action';
 import { getCurrentCity } from '../../store/selectors';
-import { City, Offers } from '../../types/offer';
+import { City } from '../../types/offer';
 import { AppDispatch } from '../../types/state';
 
-const mouseClickHandler = (city: City, dispatch: AppDispatch, offers: Offers) => (evt: MouseEvent<HTMLAnchorElement>) => {
+const handleClick = (city: City, dispatch: AppDispatch) => (evt: MouseEvent<HTMLAnchorElement>) => {
   evt.preventDefault();
   dispatch(changeActiveCity(city));
 };
 
 function LocationsList(): JSX.Element {
   const currentCity = useAppSelector(getCurrentCity);
-  const offers = useAppSelector((state) => state.offers);
   const dispatch = useAppDispatch();
 
   const getLocationsList = () => {
@@ -23,7 +22,7 @@ function LocationsList(): JSX.Element {
     Object.entries(Location).forEach((item) => {
       content.push(
         <li className="locations__item">
-          <Link className={`locations__item-link tabs__item ${item[1].name === currentCity.name ? 'tabs__item--active' : ''}`} onClick={mouseClickHandler(item[1], dispatch, offers)} to={''}>
+          <Link className={`locations__item-link tabs__item ${item[1].name === currentCity.name ? 'tabs__item--active' : ''}`} onClick={handleClick(item[1], dispatch)} to={''}>
             <span>{item[1].name}</span>
           </Link>
         </li>

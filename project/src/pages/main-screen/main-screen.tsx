@@ -5,11 +5,12 @@ import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { getOffersCountFromCity } from '../../store/selectors';
+import { getCurrentCity, getOffersCountFromCity } from '../../store/selectors';
 
 function MainScreen(): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<number>();
   const offersCount = useAppSelector(getOffersCountFromCity);
+  const currentCity = useAppSelector(getCurrentCity);
 
   return (
     <div className="page page--gray page--main">
@@ -51,7 +52,7 @@ function MainScreen(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offersCount} places to stay in {currentCity.name}</b>
               <form className="places__sorting" action="/#" method="get">
                 <span className="places__sorting-caption">Sort by </span>
                 <span className="places__sorting-type" tabIndex={0}>
