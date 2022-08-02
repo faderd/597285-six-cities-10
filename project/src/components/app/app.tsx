@@ -8,12 +8,13 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
+import { getIsDataLoaded } from '../../store/selectors';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
-  const { isDataLoaded } = useAppSelector((state) => state);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
 
-  if (isDataLoaded) {
+  if (!isDataLoaded) {
     return (
       <LoadingScreen />
     );

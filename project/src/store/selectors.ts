@@ -6,3 +6,5 @@ export const getOffersFromCity = (state: State) => state.offers.filter((offer: O
 export const getOffersCountFromCity = (state: State) => getOffersFromCity(state).length;
 
 export const getCurrentCity = (state: State) => state.city;
+
+export const getIsDataLoaded = (state: State) => state.isDataLoaded;

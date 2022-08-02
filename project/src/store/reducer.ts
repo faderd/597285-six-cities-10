@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Location} from '../const';
+import { LOCATIONS} from '../const';
 import { City, Offers } from '../types/offer';
 import { changeActiveCity, setDataLoadedStatus, storeOffers } from './action';
 
-const DEFAULT_CITY = Location.PARIS;
+const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
 
 type InitialState = {
   city: City,
