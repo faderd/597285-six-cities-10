@@ -1,19 +1,24 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { favorites } from '../../mocks/favorites';
-import { offers } from '../../mocks/offers';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
-import { storeOffers } from '../../store/action';
+import { getIsDataLoaded } from '../../store/selectors';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(storeOffers(offers));
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -32,7 +37,7 @@ function App(): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <FavoritesScreen offers={favorites}/>
+              <FavoritesScreen offers={favorites} />
             </PrivateRoute>
           }
         />
