@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, LOCATIONS} from '../const';
 import { City, Offers } from '../types/offer';
-import { changeActiveCity, requireAuthorization, setDataLoadedStatus, storeOffers } from './action';
+import { changeActiveCity, requireAuthorization, setDataLoadedStatus, storeEmail, storeOffers } from './action';
 
 const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
 
@@ -10,6 +10,7 @@ type InitialState = {
   offers: Offers,
   isDataLoaded: boolean,
   authorizationStatus: AuthorizationStatus,
+  email: string | null,
 };
 
 const initialState: InitialState = {
@@ -17,6 +18,7 @@ const initialState: InitialState = {
   offers: [],
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unkown,
+  email: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -32,6 +34,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(storeEmail, (state, action) => {
+      state.email = action.payload;
     });
 });
 

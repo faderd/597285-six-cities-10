@@ -8,3 +8,7 @@ export const getOffersCountFromCity = (state: State) => getOffersFromCity(state)
 export const getCurrentCity = (state: State) => state.city;
 
 export const getIsDataLoaded = (state: State) => state.isDataLoaded;
+
+export const getAuthorizationStatus = (state: State) => state.authorizationStatus;
+
+export const getEmail = (state: State) => state.email;

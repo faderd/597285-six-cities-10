@@ -7,6 +7,7 @@ export enum Action {
   StoreOffers = 'STORE_OFFERS',
   IsDataLoaded = 'IS_DATA_LOADED',
   RequireAuthorization = 'REQUIRE_AUTHORIZATION',
+  StoreEmail = 'STORE_EMAIL',
 }
 
 export const changeActiveCity = createAction(Action.ChangeActiveCity, (city: City) => ({
@@ -23,4 +24,8 @@ export const setDataLoadedStatus = createAction(Action.IsDataLoaded, (isDataLoad
 
 export const requireAuthorization = createAction(Action.RequireAuthorization, (authorizationStatus: AuthorizationStatus) => ({
   payload: authorizationStatus,
+}));
+
+export const storeEmail = createAction(Action.StoreEmail, (email: string) => ({
+  payload: email,
 }));
