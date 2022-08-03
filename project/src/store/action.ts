@@ -1,10 +1,12 @@
 import { createAction } from '@reduxjs/toolkit';
+import { AuthorizationStatus } from '../const';
 import { City, Offers } from '../types/offer';
 
 export enum Action {
   ChangeActiveCity = 'CHANGE_ACTIVE_CITY',
   StoreOffers = 'STORE_OFFERS',
   IsDataLoaded = 'IS_DATA_LOADED',
+  RequireAuthorization = 'REQUIRE_AUTHORIZATION',
 }
 
 export const changeActiveCity = createAction(Action.ChangeActiveCity, (city: City) => ({
@@ -17,4 +19,8 @@ export const storeOffers = createAction(Action.StoreOffers, (offers: Offers) => 
 
 export const setDataLoadedStatus = createAction(Action.IsDataLoaded, (isDataLoaded: boolean) => ({
   payload: isDataLoaded,
+}));
+
+export const requireAuthorization = createAction(Action.RequireAuthorization, (authorizationStatus: AuthorizationStatus) => ({
+  payload: authorizationStatus,
 }));
