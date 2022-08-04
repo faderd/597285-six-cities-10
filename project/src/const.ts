@@ -67,4 +67,6 @@ export const LOCATIONS = [
 
 export enum APIRoute {
   Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
 }
