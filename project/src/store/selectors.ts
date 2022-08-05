@@ -1,7 +1,10 @@
+import { createSelector } from 'reselect';
 import { Offer } from '../types/offer';
 import { State } from '../types/state';
 
-export const getOffersFromCity = (state: State) => state.offers.filter((offer: Offer) => offer.city.name === state.city.name);
+const selectSelf = (state: State) => state;
+
+export const getOffersFromCity = createSelector(selectSelf, (state: State) => state.offers.filter((offer: Offer) => offer.city.name === state.city.name));
 
 export const getOffersCountFromCity = (state: State) => getOffersFromCity(state).length;
 

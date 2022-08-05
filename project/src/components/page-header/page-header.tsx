@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Logo from '../logo/logo';
 import UserMenu from '../user-menu/user-menu';
 
@@ -22,4 +23,4 @@ function PageHeader({ isMainScreen }: PageHeaderProps): JSX.Element {
   );
 }
 
-export default PageHeader;
+export default memo(PageHeader);

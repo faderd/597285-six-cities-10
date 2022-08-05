@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { memo, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { LOCATIONS } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -31,4 +31,4 @@ function LocationsList(): JSX.Element {
   );
 }
 
-export default LocationsList;
+export default memo(LocationsList);
