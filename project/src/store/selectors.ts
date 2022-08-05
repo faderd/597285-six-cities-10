@@ -12,3 +12,5 @@ export const getIsDataLoaded = (state: State) => state.isDataLoaded;
 export const getAuthorizationStatus = (state: State) => state.authorizationStatus;
 
 export const getEmail = (state: State) => state.email;
+
+export const getAvatarUrl = (state: State) => state.avatarUrl;

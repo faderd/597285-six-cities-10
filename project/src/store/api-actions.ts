@@ -6,7 +6,7 @@ import { AuthData } from '../types/auth-data';
 import { Offers } from '../types/offer';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { Action, requireAuthorization, setDataLoadedStatus, storeEmail, storeOffers } from './action';
+import { Action, requireAuthorization, setDataLoadedStatus, storeAvatarUrl, storeEmail, storeOffers } from './action';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -28,11 +28,12 @@ export const login = createAsyncThunk<void, AuthData, {
   extra: AxiosInstance
 }>(
   'login',
-  async({login: email, password}, { dispatch, extra: api }) => {
-    const { data: {token} } = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
+    saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(storeEmail(email));
+    dispatch(storeEmail(data.email));
+    dispatch(storeAvatarUrl(data.avatarUrl));
   },
 );
 
@@ -49,7 +50,7 @@ export const logout = createAsyncThunk<void, undefined, {
   },
 );
 
-export const checkAuth = createAsyncThunk < void, undefined, {
+export const checkAuth = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -57,8 +58,10 @@ export const checkAuth = createAsyncThunk < void, undefined, {
   'checkAuth',
   async (_arg, { dispatch, extra: api }) => {
     try {
-      await api.get(APIRoute.Login);
+      const { data } = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(storeEmail(data.email));
+      dispatch(storeAvatarUrl(data.avatarUrl));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
