@@ -4,7 +4,7 @@ import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import PageHeader from '../../components/page-header/page-header';
 import { useAppSelector } from '../../hooks';
-import { getCurrentCity, getOffersCountFromCity } from '../../store/selectors';
+import { getCurrentCity, getOffersCountFromCity } from '../../store/app-data/selectors';
 
 function MainScreen(): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<number>();

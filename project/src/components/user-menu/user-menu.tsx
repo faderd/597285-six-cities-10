@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logout } from '../../store/api-actions';
-import { getAuthorizationStatus, getAvatarUrl, getEmail } from '../../store/selectors';
+import { getAuthorizationStatus, getAvatarUrl, getEmail } from '../../store/user-process/selectors';
 
 function UserMenu(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);

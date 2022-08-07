@@ -2,8 +2,8 @@ import { memo, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { LOCATIONS } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeActiveCity } from '../../store/action';
-import { getCurrentCity } from '../../store/selectors';
+import { changeActiveCity } from '../../store/app-data/app-data';
+import { getCurrentCity } from '../../store/app-data/selectors';
 import { City } from '../../types/offer';
 import { AppDispatch } from '../../types/state';
 
