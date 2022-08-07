@@ -2,13 +2,13 @@ import { createSelector } from 'reselect';
 import { Offer } from '../types/offer';
 import { State } from '../types/state';
 
-const selectSelf = (state: State) => state;
-
-export const getOffersFromCity = createSelector(selectSelf, (state: State) => state.offers.filter((offer: Offer) => offer.city.name === state.city.name));
-
-export const getOffersCountFromCity = (state: State) => getOffersFromCity(state).length;
+export const getOffers = (state: State) => state.offers;
 
 export const getCurrentCity = (state: State) => state.city;
+
+export const getOffersFromCity = createSelector([getOffers, getCurrentCity], (offers, city) => offers.filter((offer: Offer) => offer.city.name === city.name));
+
+export const getOffersCountFromCity = (state: State) => getOffersFromCity(state).length;
 
 export const getIsDataLoaded = (state: State) => state.isDataLoaded;
 

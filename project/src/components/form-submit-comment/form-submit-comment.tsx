@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, FormEvent } from 'react';
+import React, { ChangeEvent, useState, FormEvent } from 'react';
 import { RATING_LEVELS } from '../../const';
 
 type ReviewFormProps = {
@@ -23,14 +23,14 @@ function ReviewForm({ onSubmit }: ReviewFormProps): JSX.Element {
         {Array.from({ length: 5 }).map((_, index, arr) => {
           const value = arr.length - index;
           return (
-            <>
+            <React.Fragment key={value}>
               <input className="form__rating-input visually-hidden" name="rating" value={`${value}`} id={`${value}-stars`} type="radio" onChange={ratingChangeHandler} />
               <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={`${RATING_LEVELS[value - 1]}`}>
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
                 </svg>
               </label>
-            </>);
+            </React.Fragment>);
         })}
 
       </div>

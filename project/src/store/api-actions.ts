@@ -6,7 +6,7 @@ import { AuthData } from '../types/auth-data';
 import { Offers } from '../types/offer';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { Action, requireAuthorization, setDataLoadedStatus, storeAvatarUrl, storeEmail, storeOffers } from './action';
+import { Action, requireAuthorization, setDataLoadedStatus, storeOffers, storeUser } from './action';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -32,8 +32,7 @@ export const login = createAsyncThunk<void, AuthData, {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(storeEmail(data.email));
-    dispatch(storeAvatarUrl(data.avatarUrl));
+    dispatch(storeUser(data));
   },
 );
 
@@ -60,8 +59,7 @@ export const checkAuth = createAsyncThunk<void, undefined, {
     try {
       const { data } = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(storeEmail(data.email));
-      dispatch(storeAvatarUrl(data.avatarUrl));
+      dispatch(storeUser(data));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }

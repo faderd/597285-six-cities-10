@@ -7,8 +7,7 @@ export enum Action {
   StoreOffers = 'STORE_OFFERS',
   IsDataLoaded = 'IS_DATA_LOADED',
   RequireAuthorization = 'REQUIRE_AUTHORIZATION',
-  StoreEmail = 'STORE_EMAIL',
-  StoreAvatarUrl = 'STORE_AVATAR_URL',
+  StoreUser = 'STORE_USER',
 }
 
 export const changeActiveCity = createAction(Action.ChangeActiveCity, (city: City) => ({
@@ -27,10 +26,9 @@ export const requireAuthorization = createAction(Action.RequireAuthorization, (a
   payload: authorizationStatus,
 }));
 
-export const storeEmail = createAction(Action.StoreEmail, (email: string) => ({
-  payload: email,
-}));
-
-export const storeAvatarUrl = createAction(Action.StoreAvatarUrl, (avatarUrl: string) => ({
-  payload: avatarUrl,
+export const storeUser = createAction(Action.StoreUser, ({email, avatarUrl}) => ({
+  payload: {
+    email,
+    avatarUrl,
+  },
 }));
