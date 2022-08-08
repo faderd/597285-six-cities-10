@@ -3,8 +3,8 @@ import useMap from '../../hooks/use-map/use-map';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks';
-import { getOffersFromCity } from '../../store/selectors';
 import { Offer } from '../../types/offer';
+import { getCurrentCity, getOffersFromCity } from '../../store/app-data/selectors';
 
 
 const URL_MARKER_DEFAULT = '../img/pin.svg';
@@ -29,7 +29,7 @@ const currentCustomIcon = leaflet.icon({
 const markerGroup = leaflet.layerGroup();
 
 function Map({ selectedOfferId }: MapProps): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector(getCurrentCity);
   const offersList = useAppSelector(getOffersFromCity);
 
   const mapRef = useRef(null);

@@ -4,7 +4,6 @@ import Logo from '../../components/logo/logo';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/api-actions';
-import { AuthData } from '../../types/auth-data';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -13,18 +12,14 @@ function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (authData: AuthData) => {
-    dispatch(login(authData));
-  };
-
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+      dispatch(login({
         login: loginRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
 
       navigate(AppRoute.Main);
     }

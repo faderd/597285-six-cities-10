@@ -1,5 +1,6 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getOffersFromCity } from '../../store/selectors';
+import { getOffersFromCity } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
@@ -23,4 +24,4 @@ function OffersList({ onActiveCardIdChange }: OffersListProps): JSX.Element {
   );
 }
 
-export default OffersList;
+export default memo(OffersList);
