@@ -13,7 +13,7 @@ export const fetchOffers = createAsyncThunk<Offers, undefined, {
   state: State,
   extra: AxiosInstance
 }>(
-  'data/storeOffers',
+  'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<Offers>(APIRoute.Offers);
     return data;
