@@ -1,13 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import {BrowserRouter as Router} from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import HistoryRouter from '../history-router/history-router';
 import Logo from './logo';
+
+const history = createMemoryHistory();
 
 describe('Component: Logo', () => {
   it('should render correctly', () => {
     render(
-      <Router>
+      <HistoryRouter history={history}>
         <Logo />
-      </Router>
+      </HistoryRouter>
     );
 
     expect(screen.getByAltText('6 cities logo')).toBeInTheDocument();
