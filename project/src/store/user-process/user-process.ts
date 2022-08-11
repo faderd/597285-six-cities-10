@@ -3,15 +3,15 @@ import { AuthorizationStatus, NameSpace } from '../../const';
 import { UserProcess } from '../../types/state';
 import { checkAuth, login, logout } from '../api-actions';
 
-const initialState: UserProcess = {
-  authorizationStatus: AuthorizationStatus.Unkown,
+export const getInitialStateUserProcess = (): UserProcess => ({
+  authorizationStatus: AuthorizationStatus.Unknown,
   email: null,
   avatarUrl: null,
-};
+});
 
 export const userProcess = createSlice({
   name: NameSpace.User,
-  initialState,
+  initialState: getInitialStateUserProcess(),
   reducers: {
     storeUser: (state, action) => {
       state.avatarUrl = action.payload.avatarUrl;

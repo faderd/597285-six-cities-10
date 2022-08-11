@@ -1,20 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { LOCATIONS, NameSpace } from '../../const';
-import { City } from '../../types/offer';
+import { DEFAULT_CITY, NameSpace } from '../../const';
 import { AppData } from '../../types/state';
 import { fetchOffers } from '../api-actions';
 
-const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
-
-const initialState: AppData = {
+export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
   offers: [],
   isDataLoaded: false,
-};
+});
 
 export const appData = createSlice({
   name: NameSpace.Data,
-  initialState,
+  initialState: getInitialStateAppData(),
   reducers: {
     changeActiveCity: (state, action) => {
       state.city = action.payload;

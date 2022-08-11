@@ -1,3 +1,5 @@
+import { City } from './types/offer';
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -8,7 +10,7 @@ export enum AppRoute {
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
-  Unkown = 'UNKOWM',
+  Unknown = 'UNKNOWN',
 }
 
 export const RATING_LEVELS = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
@@ -75,3 +77,5 @@ export enum NameSpace {
   Data = 'DATA',
   User = 'USER',
 }
+
+export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];

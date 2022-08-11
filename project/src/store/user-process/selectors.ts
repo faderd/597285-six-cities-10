@@ -1,8 +1,10 @@
 import { NameSpace } from '../../const';
 import { State } from '../../types/state';
 
-export const getAuthorizationStatus = (state: State) => state[NameSpace.User].authorizationStatus;
+export const getUser = (state: State) => state[NameSpace.User];
 
-export const getEmail = (state: State) => state[NameSpace.User].email;
+export const getAuthorizationStatus = (state: State) => getUser(state).authorizationStatus;
 
-export const getAvatarUrl = (state: State) => state[NameSpace.User].avatarUrl;
+export const getEmail = (state: State) => getUser(state).email;
+
+export const getAvatarUrl = (state: State) => getUser(state).avatarUrl;

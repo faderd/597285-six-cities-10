@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { favorites } from '../../mocks/favorites';
@@ -21,38 +21,36 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Main}
-          element={<MainScreen />}
-        />
+    <Routes>
+      <Route
+        path={AppRoute.Main}
+        element={<MainScreen />}
+      />
 
-        <Route
-          path={AppRoute.Login}
-          element={<LoginScreen />}
-        />
+      <Route
+        path={AppRoute.Login}
+        element={<LoginScreen />}
+      />
 
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute>
-              <FavoritesScreen offers={favorites} />
-            </PrivateRoute>
-          }
-        />
+      <Route
+        path={AppRoute.Favorites}
+        element={
+          <PrivateRoute>
+            <FavoritesScreen offers={favorites} />
+          </PrivateRoute>
+        }
+      />
 
-        <Route
-          path={AppRoute.Room}
-          element={<PropertyScreen />}
-        />
+      <Route
+        path={AppRoute.Room}
+        element={<PropertyScreen />}
+      />
 
-        <Route
-          path='*'
-          element={<NotFoundScreen />}
-        />
-      </Routes>
-    </BrowserRouter>
+      <Route
+        path='*'
+        element={<NotFoundScreen />}
+      />
+    </Routes>
   );
 }
 
