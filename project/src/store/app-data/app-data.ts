@@ -3,15 +3,15 @@ import { DEFAULT_CITY, NameSpace } from '../../const';
 import { AppData } from '../../types/state';
 import { fetchOffers } from '../api-actions';
 
-const initialState: AppData = {
+export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
   offers: [],
   isDataLoaded: false,
-};
+});
 
 export const appData = createSlice({
   name: NameSpace.Data,
-  initialState,
+  initialState: getInitialStateAppData(),
   reducers: {
     changeActiveCity: (state, action) => {
       state.city = action.payload;

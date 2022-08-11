@@ -5,8 +5,9 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../types/state';
 import { Action } from '@reduxjs/toolkit';
 import { APIRoute } from '../const';
-import { checkAuth } from './api-actions';
+import { checkAuth, fetchOffers } from './api-actions';
 import { storeUser } from './user-process/user-process';
+import { makeFakeOffers } from '../utils/mocks';
 
 describe('Async actions', () => {
   const api = createAPI();
@@ -35,6 +36,25 @@ describe('Async actions', () => {
       checkAuth.pending.type,
       storeUser.type,
       checkAuth.fulfilled.type,
+    ]);
+  });
+
+  it('should dispatch offers when GET /offers', async () => {
+    const mockOffers = makeFakeOffers();
+
+    mockAPI
+      .onGet(APIRoute.Offers)
+      .reply(200, mockOffers);
+
+    const store = mockStore();
+
+    await store.dispatch(fetchOffers());
+
+    const actions = store.getActions().map(({ type }) => type);
+
+    expect(actions).toEqual([
+      fetchOffers.pending.type,
+      fetchOffers.fulfilled.type,
     ]);
   });
 });

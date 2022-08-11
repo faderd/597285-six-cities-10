@@ -1,74 +1,46 @@
 import { AuthorizationStatus } from '../../const';
 import { UserProcess } from '../../types/state';
 import { checkAuth, login, logout } from '../api-actions';
-import { userProcess } from './user-process';
+import { getInitialStateUserProcess, userProcess } from './user-process';
 
 describe('Reducer: user', () => {
-  let state: UserProcess | undefined;
+  let initialState: UserProcess | undefined;
 
   beforeEach(() => {
-    state = {
-      authorizationStatus: AuthorizationStatus.Unknown,
-      email: null,
-      avatarUrl: null,
-    };
+    initialState = getInitialStateUserProcess();
   });
 
   it('without additional parameters should return initial state', () => {
     expect(userProcess.reducer(undefined, {type: 'UNKNOWN'}))
-      .toEqual({
-        authorizationStatus: AuthorizationStatus.Unknown,
-        email: null,
-        avatarUrl: null,
-      });
+      .toEqual(initialState);
   });
 
   describe('checkAuth test', () => {
     it('should update authorizationStatus to "AUTH" if checkAuth fulfilled', () => {
-      expect(userProcess.reducer(state, { type: checkAuth.fulfilled.type }))
-        .toEqual({
-          authorizationStatus: AuthorizationStatus.Auth,
-          email: null,
-          avatarUrl: null,
-        });
+      expect(userProcess.reducer(initialState, { type: checkAuth.fulfilled.type }))
+        .toEqual({...initialState, authorizationStatus: AuthorizationStatus.Auth});
     });
     it('should update authorizationStatus to "NO_AUTH" if checkAuthrejected', () => {
-      expect(userProcess.reducer(state, { type: checkAuth.rejected.type }))
-        .toEqual({
-          authorizationStatus: AuthorizationStatus.NoAuth,
-          email: null,
-          avatarUrl: null,
-        });
+      expect(userProcess.reducer(initialState, { type: checkAuth.rejected.type }))
+        .toEqual({...initialState, authorizationStatus: AuthorizationStatus.NoAuth});
     });
   });
 
   describe('login test', () => {
     it('should update authorizationStatus to "AUTH" if login fulfilled', () => {
-      expect(userProcess.reducer(state, { type: login.fulfilled.type }))
-        .toEqual({
-          authorizationStatus: AuthorizationStatus.Auth,
-          email: null,
-          avatarUrl: null,
-        });
+      expect(userProcess.reducer(initialState, { type: login.fulfilled.type }))
+        .toEqual({...initialState, authorizationStatus: AuthorizationStatus.Auth});
     });
     it('should update authorizationStatus to "NO_AUTH" if login rejected', () => {
-      expect(userProcess.reducer(state, { type: login.rejected.type }))
-        .toEqual({
-          authorizationStatus: AuthorizationStatus.NoAuth,
-          email: null,
-          avatarUrl: null,
-        });
+      expect(userProcess.reducer(initialState, { type: login.rejected.type }))
+        .toEqual({...initialState, authorizationStatus: AuthorizationStatus.NoAuth});
     });
   });
 
   describe('logout test', () => {
     it('should update authorizationStatus to "NO_AUTH" if logout fulfilled', () => {
-      expect(userProcess.reducer(state, { type: logout.fulfilled.type }))
-        .toEqual({
-          authorizationStatus: AuthorizationStatus.NoAuth,
-          email: null,
-          avatarUrl: null,
-        });
+      expect(userProcess.reducer(initialState, { type: logout.fulfilled.type }))
+        .toEqual({...initialState, authorizationStatus: AuthorizationStatus.NoAuth});
     });
   });
 });

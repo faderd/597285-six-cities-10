@@ -41,8 +41,8 @@ describe('Application Routing', () => {
 
     render(fakeApp);
 
-    expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByText(/E-mail/i)).toBeInTheDocument();
+    expect(screen.getByText(/Password/i)).toBeInTheDocument();
     expect(screen.getByText('Amsterdam')).toBeInTheDocument();
   });
 
