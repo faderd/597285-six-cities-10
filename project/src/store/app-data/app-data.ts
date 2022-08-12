@@ -7,6 +7,7 @@ export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
   offers: [],
   isDataLoaded: false,
+  reviews: [],
 });
 
 export const appData = createSlice({
@@ -15,6 +16,12 @@ export const appData = createSlice({
   reducers: {
     changeActiveCity: (state, action) => {
       state.city = action.payload;
+    },
+    storeOffer: (state, action) => {
+      state.offers.push(action.payload);
+    },
+    storeReviews: (state, action) => {
+      state.reviews = action.payload;
     },
   },
   extraReducers(builder) {
@@ -29,4 +36,4 @@ export const appData = createSlice({
   },
 });
 
-export const { changeActiveCity } = appData.actions;
+export const { changeActiveCity, storeOffer, storeReviews } = appData.actions;

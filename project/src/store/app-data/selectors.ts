@@ -12,3 +12,5 @@ export const getOffersFromCity = createSelector([getOffers, getCurrentCity], (of
 export const getOffersCountFromCity = (state: State) => getOffersFromCity(state).length;
 
 export const getIsDataLoadedStatus = (state: State) => state[NameSpace.Data].isDataLoaded;
+
+export const getReviews = (state: State) => state[NameSpace.Data].reviews;
