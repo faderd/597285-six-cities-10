@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getReviews } from '../../store/app-data/selectors';
 import ReviewItem from '../review-item/review-item';
@@ -21,4 +22,4 @@ function Reviews(): JSX.Element {
   );
 }
 
-export default Reviews;
+export default memo(Reviews);

@@ -1,5 +1,14 @@
 import { Offers } from '../../types/offer';
-import OfferCard from '../offer-card/offer-card';
+import OffersList from '../offers-list/offers-list';
+
+enum OffersListSetting {
+  WrapperClassName = 'favorites__places',
+  ArticleClassName = 'favorites__card',
+  ImageWrapperClassName = 'favorites__image-wrapper',
+  ImageWidth = '150',
+  ImageHeight = '110',
+  CardInfoClassName = 'favorites__card-info place-card__info',
+}
 
 type FavoriteLocationListProps = {
   offers: Offers;
@@ -20,18 +29,7 @@ function FavoriteLocationList({ offers }: FavoriteLocationListProps): JSX.Elemen
                 </a>
               </div>
             </div>
-
-            <div className="favorites__places">
-              {
-                offers.map((offer) => {
-                  if (offer.city.name !== city) { return null; }
-
-                  return (
-                    <OfferCard key={offer.id} offer={offer} isForFavorite />
-                  );
-                })
-              }
-            </div>
+            <OffersList offersListSetting={OffersListSetting} onActiveCardIdChange={() => null} offers={offers} />
           </li>
         ))
       }

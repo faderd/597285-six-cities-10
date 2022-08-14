@@ -4,12 +4,28 @@ import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import PageHeader from '../../components/page-header/page-header';
 import { useAppSelector } from '../../hooks';
-import { getCurrentCity, getOffersCountFromCity } from '../../store/app-data/selectors';
+import { getCurrentCity, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
+
+enum OffersListSetting {
+  WrapperClassName = 'cities__places-list places__list tabs__content',
+  ArticleClassName = 'cities__card',
+  ImageWrapperClassName = 'cities__image-wrapper',
+  ImageWidth = '260',
+  ImageHeight = '200',
+  CardInfoClassName = 'place-card__info',
+}
+
+const MapSetting = {
+  Style: {
+    height: '752px',
+  },
+};
 
 function MainScreen(): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<number>();
   const offersCount = useAppSelector(getOffersCountFromCity);
   const currentCity = useAppSelector(getCurrentCity);
+  const offers = useAppSelector(getOffersFromCity);
 
   return (
     <div className="page page--gray page--main">
@@ -42,11 +58,11 @@ function MainScreen(): JSX.Element {
                 </ul>
               </form>
 
-              <OffersList onActiveCardIdChange={setActiveCardId} />
+              <OffersList onActiveCardIdChange={setActiveCardId} offersListSetting={OffersListSetting} offers={offers} />
 
             </section>
             <div className="cities__right-section">
-              <Map selectedOfferId={activeCardId} />
+              <Map selectedOfferId={activeCardId} mapSetting={MapSetting} offers={offers} />
             </div>
           </div>
         </div>

@@ -18,4 +18,5 @@ export type AppData = {
   offers: Offers,
   isDataLoaded: boolean,
   reviews: Reviews,
+  nearbyOffers: Offers,
 };

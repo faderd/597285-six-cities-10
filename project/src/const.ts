@@ -1,4 +1,5 @@
 import { City } from './types/offer';
+import leaflet from 'leaflet';
 
 export enum AppRoute {
   Main = '/',
@@ -70,6 +71,7 @@ export const LOCATIONS = [
 export enum APIRoute {
   Offers = '/hotels',
   Offer = '/offer/:id',
+  NearbyOffers = '/hotels/:hotelId/nearby',
   Reviews = '/comments/:hotelId',
   Login = '/login',
   Logout = '/logout',
@@ -81,3 +83,15 @@ export enum NameSpace {
 }
 
 export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
+
+export const DEFAULT_CUSTOM_ICON = leaflet.icon({
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+export const CURRENT_CUSTOM_ICON = leaflet.icon({
+  iconUrl: '../img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});

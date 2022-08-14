@@ -1,23 +1,21 @@
 import { memo } from 'react';
-import { useAppSelector } from '../../hooks';
-import { getOffersFromCity } from '../../store/app-data/selectors';
-import { Offer } from '../../types/offer';
+import { Offer, Offers } from '../../types/offer';
+import { OffersListSetting } from '../../types/settings';
 import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
   onActiveCardIdChange: (id: number) => void;
+  offersListSetting: OffersListSetting,
+  offers: Offers,
 };
 
-
-function OffersList({ onActiveCardIdChange }: OffersListProps): JSX.Element {
-
-  const offersList = useAppSelector(getOffersFromCity);
+function OffersList({ onActiveCardIdChange, offersListSetting, offers }: OffersListProps): JSX.Element {
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={offersListSetting.WrapperClassName}>
       {
-        offersList.map((offer: Offer) => (
-          <OfferCard key={offer.id} offer={offer} onMouseOver={() => onActiveCardIdChange(offer.id)} />
+        offers.map((offer: Offer) => (
+          <OfferCard key={offer.id} offer={offer} onMouseOver={() => onActiveCardIdChange(offer.id)} offersListSetting={offersListSetting} />
         ))
       }
     </div>

@@ -8,7 +8,7 @@ import { Offer, Offers } from '../types/offer';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { storeOffer, storeReviews } from './app-data/app-data';
+import { storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
 import { storeUser } from './user-process/user-process';
 
 export const fetchOffers = createAsyncThunk<Offers, undefined, {
@@ -44,6 +44,18 @@ export const fetchReviews = createAsyncThunk<void, string | undefined, {
   async (hotelId, { dispatch, extra: api }) => {
     const { data } = await api.get<Reviews>(generatePath(APIRoute.Reviews, {hotelId}));
     dispatch(storeReviews(data));
+  },
+);
+
+export const fetchNearbyOffers = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchOffer',
+  async (hotelId, { dispatch, extra: api }) => {
+    const { data } = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, { hotelId }));
+    dispatch(storeNearbyOffers(data));
   },
 );
 

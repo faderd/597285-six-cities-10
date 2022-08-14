@@ -14,3 +14,5 @@ export const getOffersCountFromCity = (state: State) => getOffersFromCity(state)
 export const getIsDataLoadedStatus = (state: State) => state[NameSpace.Data].isDataLoaded;
 
 export const getReviews = (state: State) => state[NameSpace.Data].reviews;
+
+export const getNearbyOffers = (state: State) => state[NameSpace.Data].nearbyOffers;
