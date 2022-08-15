@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import LocationsList from '../../components/locations-list/locations-list';
 import Map from '../../components/map/map';
-import OffersList from '../../components/offers-list/offers-list';
+import OfferCard from '../../components/offer-card/offer-card';
 import PageHeader from '../../components/page-header/page-header';
 import { useAppSelector } from '../../hooks';
 import { getCurrentCity, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
+import { Offer } from '../../types/offer';
 
 const MapSetting = {
   Style: {
@@ -49,18 +50,22 @@ function MainScreen(): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-
-              <OffersList
-                onActiveCardIdChange={setActiveCardId}
-                offers={offers}
-                wrapperClassName={'cities__places-list places__list tabs__content'}
-                articleClassName={'cities__card'}
-                imageWrapperClassName={'cities__image-wrapper'}
-                imageWidth={'260'}
-                imageHeight={'200'}
-                cardInfoClassName={''}
-              />
-
+              <div className="cities__places-list places__list tabs__content">
+                {
+                  offers.map((offer: Offer) => (
+                    <OfferCard
+                      key={offer.id}
+                      onMouseOver={() => setActiveCardId(offer.id)}
+                      offer={offer}
+                      articleClassName={'cities__card'}
+                      imageWrapperClassName={'cities__image-wrapper'}
+                      imageWidth={'260'}
+                      imageHeight={'200'}
+                      cardInfoClassName={''}
+                    />
+                  ))
+                }
+              </div>
             </section>
             <div className="cities__right-section">
               <Map selectedOfferId={activeCardId} mapSetting={MapSetting} offers={offers} currentCity={currentCity} />

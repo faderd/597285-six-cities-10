@@ -54,8 +54,8 @@ describe('Application Routing', () => {
     expect(screen.getByText('Saved listing')).toBeInTheDocument();
   });
 
-  it('should render "PropertyScreen" when user navigate to "/offer/0"', () => {
-    history.push(generatePath(AppRoute.Room, { id: '0' }));
+  it('should render "PropertyScreen" when user navigate to "/offer/1"', () => {
+    history.push(generatePath(AppRoute.Room, { id: '1' }));
 
     render(fakeApp);
 

@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus, NameSpace } from '../../const';
 import { UserProcess } from '../../types/state';
+import { UserData } from '../../types/user-data';
 import { checkAuth, login, logout } from '../api-actions';
 
 export const getInitialStateUserProcess = (): UserProcess => ({
@@ -13,7 +14,7 @@ export const userProcess = createSlice({
   name: NameSpace.User,
   initialState: getInitialStateUserProcess(),
   reducers: {
-    storeUser: (state, action) => {
+    storeUser: (state, action: PayloadAction<UserData>) => {
       state.avatarUrl = action.payload.avatarUrl;
       state.email = action.payload.email;
     },

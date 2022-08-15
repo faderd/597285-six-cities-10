@@ -1,5 +1,5 @@
-import { Offers } from '../../types/offer';
-import OffersList from '../offers-list/offers-list';
+import { Offer, Offers } from '../../types/offer';
+import OfferCard from '../offer-card/offer-card';
 
 type FavoriteLocationListProps = {
   offers: Offers;
@@ -20,16 +20,21 @@ function FavoriteLocationList({ offers }: FavoriteLocationListProps): JSX.Elemen
                 </a>
               </div>
             </div>
-            <OffersList
-              onActiveCardIdChange={() => null}
-              offers={offers}
-              wrapperClassName={'favorites__places'}
-              articleClassName={'favorites__card'}
-              imageWrapperClassName={'favorites__image-wrapper'}
-              imageWidth={'150'}
-              imageHeight={'110'}
-              cardInfoClassName={'favorites__card-info'}
-            />
+            <div className="favorites__places">
+              {
+                offers.map((offer: Offer) => (
+                  <OfferCard
+                    key={offer.id}
+                    offer={offer}
+                    articleClassName={'favorites__card'}
+                    imageWrapperClassName={'favorites__image-wrapper'}
+                    imageWidth={'150'}
+                    imageHeight={'110'}
+                    cardInfoClassName={'favorites__card-info'}
+                  />
+                ))
+              }
+            </div>
           </li>
         ))
       }

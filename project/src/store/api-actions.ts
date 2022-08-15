@@ -35,14 +35,14 @@ export const fetchOffer = createAsyncThunk<void, string, {
   },
 );
 
-export const fetchReviews = createAsyncThunk<void, string | undefined, {
+export const fetchOfferReviews = createAsyncThunk<void, string | undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/fetchReviews',
-  async (hotelId, { dispatch, extra: api }) => {
-    const { data } = await api.get<Reviews>(generatePath(APIRoute.Reviews, {hotelId}));
+  async (offerId, { dispatch, extra: api }) => {
+    const { data } = await api.get<Reviews>(generatePath(APIRoute.Reviews, {offerId: offerId}));
     dispatch(storeReviews(data));
   },
 );
@@ -52,9 +52,9 @@ export const fetchNearbyOffers = createAsyncThunk<void, string, {
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchOffer',
-  async (hotelId, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, { hotelId }));
+  'data/fetchNearbyOffers',
+  async (offerId, { dispatch, extra: api }) => {
+    const { data } = await api.get<Offers>(generatePath(APIRoute.NearbyOffers, { offerId: offerId }));
     dispatch(storeNearbyOffers(data));
   },
 );

@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks';
 import { getNearbyOffers } from '../../store/app-data/selectors';
-import { City } from '../../types/offer';
+import { City, Offer } from '../../types/offer';
 import Map from '../map/map';
 
 const MapSetting = {
@@ -16,13 +16,14 @@ const MapSetting = {
 type PropertyMapProps = {
   selectedOfferId?: number;
   currentCity: City;
+  currentOffer: Offer,
 };
 
-function PropertyMap({ selectedOfferId, currentCity }: PropertyMapProps): JSX.Element {
+function PropertyMap({ selectedOfferId, currentCity, currentOffer }: PropertyMapProps): JSX.Element {
   const offers = useAppSelector(getNearbyOffers);
 
   return (
-    <Map selectedOfferId={selectedOfferId} mapSetting={MapSetting} offers={offers} currentCity={currentCity} />
+    <Map selectedOfferId={selectedOfferId} mapSetting={MapSetting} offers={offers} currentCity={currentCity} currentOffer={currentOffer} />
   );
 }
 
