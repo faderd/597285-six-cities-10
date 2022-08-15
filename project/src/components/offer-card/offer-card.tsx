@@ -5,28 +5,17 @@ import { Offer } from '../../types/offer';
 type OfferCardProps = {
   offer: Offer;
   onMouseOver?: () => void;
-  isForFavorite?: boolean;
+  articleClassName: string,
+  imageWrapperClassName: string,
+  imageWidth: string,
+  imageHeight: string,
+  cardInfoClassName: string,
 };
 
-function OfferCard({ offer, onMouseOver, isForFavorite }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName, imageWidth, imageHeight, cardInfoClassName }: OfferCardProps): JSX.Element {
   const favoriteClassName = offer.isFavorite
     ? 'place-card__bookmark-button--active '
     : '';
-  const articleClassName = isForFavorite
-    ? 'favorites__card'
-    : 'cities__card';
-  const imageWrapperClassName = isForFavorite
-    ? 'favorites__image-wrapper'
-    : 'cities__image-wrapper';
-  const cardInfoClassName = isForFavorite
-    ? 'favorites__card-info place-card__info'
-    : 'place-card__info';
-  const imageWidth = isForFavorite
-    ? '150'
-    : '260';
-  const imageHeight = isForFavorite
-    ? '110'
-    : '200';
 
   return (
     <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} >
@@ -39,7 +28,7 @@ function OfferCard({ offer, onMouseOver, isForFavorite }: OfferCardProps): JSX.E
           <img className="place-card__image" src={offer.previewImage} width={imageWidth} height={imageHeight} alt="Place" />
         </Link>
       </div>
-      <div className={cardInfoClassName}>
+      <div className={`${cardInfoClassName} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.price} </b>

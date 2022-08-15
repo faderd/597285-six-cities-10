@@ -2,35 +2,32 @@ import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useAppSelector } from '../../hooks';
-import { Offer } from '../../types/offer';
-import { getCurrentCity, getOffersFromCity } from '../../store/app-data/selectors';
+import { City, Offer, Offers } from '../../types/offer';
+import { MapSetting } from '../../types/settings';
 
+const DEFAULT_CUSTOM_ICON = leaflet.icon({
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
-const URL_MARKER_DEFAULT = '../img/pin.svg';
-const URL_MARKER_CURRENT = '../img/pin-active.svg';
+const CURRENT_CUSTOM_ICON = leaflet.icon({
+  iconUrl: '../img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 type MapProps = {
   selectedOfferId?: number;
+  mapSetting: MapSetting,
+  offers: Offers,
+  currentCity: City,
+  currentOffer?: Offer,
 };
-
-const defaultCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
-const currentCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
 
 const markerGroup = leaflet.layerGroup();
 
-function Map({ selectedOfferId }: MapProps): JSX.Element {
-  const currentCity = useAppSelector(getCurrentCity);
-  const offersList = useAppSelector(getOffersFromCity);
+function Map({ selectedOfferId, mapSetting, offers, currentCity, currentOffer }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity.location);
@@ -45,25 +42,36 @@ function Map({ selectedOfferId }: MapProps): JSX.Element {
         lng: currentCity.location.longitude,
       }, currentCity.location.zoom);
 
-      offersList.forEach((offer: Offer) => {
+      offers.forEach((offer: Offer) => {
         leaflet
           .marker({
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
             icon: (selectedOfferId !== undefined && offer.id === selectedOfferId)
-              ? currentCustomIcon
-              : defaultCustomIcon,
+              ? CURRENT_CUSTOM_ICON
+              : DEFAULT_CUSTOM_ICON,
           })
           .addTo(markerGroup);
       });
+
+      if (currentOffer && !selectedOfferId) {
+        leaflet
+          .marker({
+            lat: currentOffer.location.latitude,
+            lng: currentOffer.location.longitude,
+          }, {
+            icon: CURRENT_CUSTOM_ICON,
+          })
+          .addTo(markerGroup);
+      }
     }
-  }, [currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom, map, offersList, selectedOfferId]);
+  }, [currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom, currentOffer, map, offers, selectedOfferId]);
 
   return (
     <section
-      className="cities__map map"
-      style={{ height: '752px' }}
+      className={`${mapSetting.ClassName} map`}
+      style={mapSetting.Style}
       ref={mapRef}
     />
   );

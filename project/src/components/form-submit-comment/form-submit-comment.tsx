@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState, FormEvent } from 'react';
 import { RATING_LEVELS } from '../../const';
 
 type ReviewFormProps = {
-  onSubmit: (commentFormState: string, ratingFormState: number) => void;
+  onSubmit?: (commentFormState: string, ratingFormState: number) => void;
 };
 
 function ReviewForm({ onSubmit }: ReviewFormProps): JSX.Element {
@@ -14,7 +14,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): JSX.Element {
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      onSubmit(commentFormState, ratingFormState);
+      onSubmit && onSubmit(commentFormState, ratingFormState);
     }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>

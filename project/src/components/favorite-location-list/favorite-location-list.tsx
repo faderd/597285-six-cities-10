@@ -1,4 +1,4 @@
-import { Offers } from '../../types/offer';
+import { Offer, Offers } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 type FavoriteLocationListProps = {
@@ -20,16 +20,19 @@ function FavoriteLocationList({ offers }: FavoriteLocationListProps): JSX.Elemen
                 </a>
               </div>
             </div>
-
             <div className="favorites__places">
               {
-                offers.map((offer) => {
-                  if (offer.city.name !== city) { return null; }
-
-                  return (
-                    <OfferCard key={offer.id} offer={offer} isForFavorite />
-                  );
-                })
+                offers.map((offer: Offer) => (
+                  <OfferCard
+                    key={offer.id}
+                    offer={offer}
+                    articleClassName={'favorites__card'}
+                    imageWrapperClassName={'favorites__image-wrapper'}
+                    imageWidth={'150'}
+                    imageHeight={'110'}
+                    cardInfoClassName={'favorites__card-info'}
+                  />
+                ))
               }
             </div>
           </li>

@@ -3,18 +3,29 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { generatePath } from 'react-router-dom';
+import { createAPI } from '../../api';
 import { AppRoute, AuthorizationStatus, DEFAULT_CITY } from '../../const';
 import { Offers } from '../../types/offer';
 import { makeFakeOffers } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
 import App from './app';
+import thunk from 'redux-thunk';
+import { State } from '../../types/state';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 
-const mockStore = configureMockStore();
+const api = createAPI();
+const middleWares = [thunk.withExtraArgument(api)];
+
+const mockStore = configureMockStore<
+  State,
+  Action,
+  ThunkDispatch<State, typeof api, Action>
+>(middleWares);
 const offers: Offers = makeFakeOffers();
 
 const store = mockStore({
   USER: { authorizationStatus: AuthorizationStatus.Auth },
-  DATA: { isDataLoaded: true, offers: offers, city: DEFAULT_CITY },
+  DATA: { isDataLoaded: true, offers: offers, city: DEFAULT_CITY, reviews: [], nearbyOffers: offers },
 });
 
 const history = createMemoryHistory();
@@ -54,8 +65,8 @@ describe('Application Routing', () => {
     expect(screen.getByText('Saved listing')).toBeInTheDocument();
   });
 
-  it('should render "PropertyScreen" when user navigate to "/offer/0"', () => {
-    history.push(generatePath(AppRoute.Room, { id: '0' }));
+  it('should render "PropertyScreen" when user navigate to "/offer/2"', () => {
+    history.push(generatePath(AppRoute.Room, { id: '2' }));
 
     render(fakeApp);
 
