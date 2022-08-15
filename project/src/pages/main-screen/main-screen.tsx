@@ -6,19 +6,11 @@ import PageHeader from '../../components/page-header/page-header';
 import { useAppSelector } from '../../hooks';
 import { getCurrentCity, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
 
-enum OffersListSetting {
-  WrapperClassName = 'cities__places-list places__list tabs__content',
-  ArticleClassName = 'cities__card',
-  ImageWrapperClassName = 'cities__image-wrapper',
-  ImageWidth = '260',
-  ImageHeight = '200',
-  CardInfoClassName = 'place-card__info',
-}
-
 const MapSetting = {
   Style: {
     height: '752px',
   },
+  ClassName: 'cities__map',
 };
 
 function MainScreen(): JSX.Element {
@@ -58,11 +50,20 @@ function MainScreen(): JSX.Element {
                 </ul>
               </form>
 
-              <OffersList onActiveCardIdChange={setActiveCardId} offersListSetting={OffersListSetting} offers={offers} />
+              <OffersList
+                onActiveCardIdChange={setActiveCardId}
+                offers={offers}
+                wrapperClassName={'cities__places-list places__list tabs__content'}
+                articleClassName={'cities__card'}
+                imageWrapperClassName={'cities__image-wrapper'}
+                imageWidth={'260'}
+                imageHeight={'200'}
+                cardInfoClassName={''}
+              />
 
             </section>
             <div className="cities__right-section">
-              <Map selectedOfferId={activeCardId} mapSetting={MapSetting} offers={offers} />
+              <Map selectedOfferId={activeCardId} mapSetting={MapSetting} offers={offers} currentCity={currentCity} />
             </div>
           </div>
         </div>

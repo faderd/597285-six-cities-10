@@ -1,31 +1,34 @@
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Offer } from '../../types/offer';
-import { OffersListSetting } from '../../types/settings';
 
 type OfferCardProps = {
   offer: Offer;
   onMouseOver?: () => void;
-  offersListSetting: OffersListSetting,
+  articleClassName: string,
+  imageWrapperClassName: string,
+  imageWidth: string,
+  imageHeight: string,
+  cardInfoClassName: string,
 };
 
-function OfferCard({ offer, onMouseOver, offersListSetting }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName, imageWidth, imageHeight, cardInfoClassName }: OfferCardProps): JSX.Element {
   const favoriteClassName = offer.isFavorite
     ? 'place-card__bookmark-button--active '
     : '';
 
   return (
-    <article className={`${offersListSetting.ArticleClassName} place-card`} onMouseOver={onMouseOver} >
+    <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} >
       {
         offer.isPremium && (<div className="place-card__mark"><span>Premium</span></div>)
       }
 
-      <div className={`${offersListSetting.ImageWrapperClassName} place-card__image-wrapper`}>
+      <div className={`${imageWrapperClassName} place-card__image-wrapper`}>
         <Link to={generatePath(AppRoute.Room, { id: `${offer.id}` })}>
-          <img className="place-card__image" src={offer.previewImage} width={offersListSetting.ImageWidth} height={offersListSetting.ImageHeight} alt="Place" />
+          <img className="place-card__image" src={offer.previewImage} width={imageWidth} height={imageHeight} alt="Place" />
         </Link>
       </div>
-      <div className={offersListSetting.CardInfoClassName}>
+      <div className={`${cardInfoClassName} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.price} </b>

@@ -2,22 +2,31 @@ import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useAppSelector } from '../../hooks';
-import { Offer, Offers } from '../../types/offer';
-import { getCurrentCity } from '../../store/app-data/selectors';
-import { CURRENT_CUSTOM_ICON, DEFAULT_CUSTOM_ICON } from '../../const';
+import { City, Offer, Offers } from '../../types/offer';
 import { MapSetting } from '../../types/settings';
+
+export const DEFAULT_CUSTOM_ICON = leaflet.icon({
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+export const CURRENT_CUSTOM_ICON = leaflet.icon({
+  iconUrl: '../img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 type MapProps = {
   selectedOfferId?: number;
   mapSetting: MapSetting,
   offers: Offers,
+  currentCity: City,
 };
 
 const markerGroup = leaflet.layerGroup();
 
-function Map({ selectedOfferId, mapSetting, offers }: MapProps): JSX.Element {
-  const currentCity = useAppSelector(getCurrentCity);
+function Map({ selectedOfferId, mapSetting, offers, currentCity }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity.location);
@@ -49,7 +58,7 @@ function Map({ selectedOfferId, mapSetting, offers }: MapProps): JSX.Element {
 
   return (
     <section
-      className="cities__map map"
+      className={`${mapSetting.ClassName} map`}
       style={mapSetting.Style}
       ref={mapRef}
     />

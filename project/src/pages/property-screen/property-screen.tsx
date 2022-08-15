@@ -8,7 +8,7 @@ import Reviews from '../../components/reviews/reviews';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchNearbyOffers, fetchOffer, fetchReviews } from '../../store/api-actions';
-import { changeActiveCity, storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
+import { storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
 import { getOffers } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { Offer } from '../../types/offer';
@@ -45,7 +45,6 @@ function PropertyScreen(): JSX.Element {
 
   dispatch(fetchReviews(offerId));
   dispatch(fetchNearbyOffers(offerId));
-  dispatch(changeActiveCity(currentOffer.city));
 
   const bookmarkButtonClassName = currentOffer.isFavorite
     ? 'property__bookmark-button property__bookmark-button--active button'
@@ -150,7 +149,7 @@ function PropertyScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <PropertyMap selectedOfferId={activeCardId} />
+          <PropertyMap selectedOfferId={activeCardId} currentCity={currentOffer.city} />
         </section>
         <div className="container">
           <section className="near-places places">
