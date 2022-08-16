@@ -7,13 +7,6 @@ import { useAppSelector } from '../../hooks';
 import { getCurrentCity, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
 
-const MapSetting = {
-  Style: {
-    height: '752px',
-  },
-  ClassName: 'cities__map',
-};
-
 function MainScreen(): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<number>();
   const offersCount = useAppSelector(getOffersCountFromCity);
@@ -57,18 +50,18 @@ function MainScreen(): JSX.Element {
                       key={offer.id}
                       onMouseOver={() => setActiveCardId(offer.id)}
                       offer={offer}
-                      articleClassName={'cities__card'}
-                      imageWrapperClassName={'cities__image-wrapper'}
-                      imageWidth={'260'}
-                      imageHeight={'200'}
-                      cardInfoClassName={''}
+                      articleClassName="cities__card"
+                      imageWrapperClassName="cities__image-wrapper"
+                      imageWidth="260"
+                      imageHeight="200"
+                      cardInfoClassName=""
                     />
                   ))
                 }
               </div>
             </section>
             <div className="cities__right-section">
-              <Map selectedOfferId={activeCardId} mapSetting={MapSetting} offers={offers} currentCity={currentCity} />
+              <Map selectedOfferId={activeCardId} mapClassName="cities__map" offers={offers} currentCity={currentCity} />
             </div>
           </div>
         </div>

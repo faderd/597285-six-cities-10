@@ -12,11 +12,11 @@ function PropertyLocationList(): JSX.Element {
           <OfferCard
             key={offer.id}
             offer={offer}
-            articleClassName={'near-places__card'}
-            imageWrapperClassName={'near-places__image-wrapper'}
-            imageWidth={'260'}
-            imageHeight={'200'}
-            cardInfoClassName={''}
+            articleClassName="near-places__card"
+            imageWrapperClassName="near-places__image-wrapper"
+            imageWidth="260"
+            imageHeight="200"
+            cardInfoClassName=""
           />
         ))
       }

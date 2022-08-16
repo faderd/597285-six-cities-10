@@ -26,11 +26,11 @@ function FavoriteLocationList({ offers }: FavoriteLocationListProps): JSX.Elemen
                   <OfferCard
                     key={offer.id}
                     offer={offer}
-                    articleClassName={'favorites__card'}
-                    imageWrapperClassName={'favorites__image-wrapper'}
-                    imageWidth={'150'}
-                    imageHeight={'110'}
-                    cardInfoClassName={'favorites__card-info'}
+                    articleClassName="favorites__card"
+                    imageWrapperClassName="favorites__image-wrapper"
+                    imageWidth="150"
+                    imageHeight="110"
+                    cardInfoClassName="favorites__card-info"
                   />
                 ))
               }
