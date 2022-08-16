@@ -19,4 +19,5 @@ export type AppData = {
   isDataLoaded: boolean,
   reviews: Reviews,
   nearbyOffers: Offers,
+  sortingType: string,
 };
