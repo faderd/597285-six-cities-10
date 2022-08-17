@@ -3,7 +3,6 @@ import useMap from '../../hooks/use-map/use-map';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { City, Offer, Offers } from '../../types/offer';
-import { MapSetting } from '../../types/settings';
 
 const DEFAULT_CUSTOM_ICON = leaflet.icon({
   iconUrl: '../img/pin.svg',
@@ -19,15 +18,14 @@ const CURRENT_CUSTOM_ICON = leaflet.icon({
 
 type MapProps = {
   selectedOfferId?: number;
-  mapSetting: MapSetting,
+  className: string,
   offers: Offers,
   currentCity: City,
-  currentOffer?: Offer,
 };
 
 const markerGroup = leaflet.layerGroup();
 
-function Map({ selectedOfferId, mapSetting, offers, currentCity, currentOffer }: MapProps): JSX.Element {
+function Map({ selectedOfferId, className, offers, currentCity }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity.location);
@@ -54,24 +52,12 @@ function Map({ selectedOfferId, mapSetting, offers, currentCity, currentOffer }:
           })
           .addTo(markerGroup);
       });
-
-      if (currentOffer && !selectedOfferId) {
-        leaflet
-          .marker({
-            lat: currentOffer.location.latitude,
-            lng: currentOffer.location.longitude,
-          }, {
-            icon: CURRENT_CUSTOM_ICON,
-          })
-          .addTo(markerGroup);
-      }
     }
-  }, [currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom, currentOffer, map, offers, selectedOfferId]);
+  }, [currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom, map, offers, selectedOfferId]);
 
   return (
     <section
-      className={`${mapSetting.ClassName} map`}
-      style={mapSetting.Style}
+      className={`${className} map`}
       ref={mapRef}
     />
   );

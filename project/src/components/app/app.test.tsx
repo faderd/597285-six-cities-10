@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { generatePath } from 'react-router-dom';
 import { createAPI } from '../../api';
-import { AppRoute, AuthorizationStatus, DEFAULT_CITY } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { Offers } from '../../types/offer';
 import { makeFakeOffers } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
@@ -12,6 +12,7 @@ import App from './app';
 import thunk from 'redux-thunk';
 import { State } from '../../types/state';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import { DEFAULT_CITY, DEFAULT_SORING_TYPE } from '../../store/app-data/app-data';
 
 const api = createAPI();
 const middleWares = [thunk.withExtraArgument(api)];
@@ -25,7 +26,7 @@ const offers: Offers = makeFakeOffers();
 
 const store = mockStore({
   USER: { authorizationStatus: AuthorizationStatus.Auth },
-  DATA: { isDataLoaded: true, offers: offers, city: DEFAULT_CITY, reviews: [], nearbyOffers: offers },
+  DATA: { isDataLoaded: true, offers: offers, city: DEFAULT_CITY, reviews: [], nearbyOffers: offers, sortingType: DEFAULT_SORING_TYPE },
 });
 
 const history = createMemoryHistory();

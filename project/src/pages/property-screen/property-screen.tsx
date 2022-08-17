@@ -28,7 +28,6 @@ function PropertyScreen(): JSX.Element {
 
       dispatch(fetchOfferReviews(offerId));
       dispatch(fetchNearbyOffers(offerId));
-
     }
 
     return () => {

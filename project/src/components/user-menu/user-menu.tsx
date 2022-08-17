@@ -8,8 +8,9 @@ function UserMenu(): JSX.Element {
   const email = useAppSelector(getEmail);
   const dispatch = useAppDispatch();
   const avatarUrl = useAppSelector(getAvatarUrl) || undefined;
+  const isAuthorized = useAppSelector(isUserAuthorized);
 
-  if (useAppSelector(isUserAuthorized)) {
+  if (isAuthorized) {
     return (
       <ul className="header__nav-list">
         <li className="header__nav-item user">

@@ -1,5 +1,3 @@
-import { City } from './types/offer';
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -81,4 +79,9 @@ export enum NameSpace {
   User = 'USER',
 }
 
-export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
+export enum SortingType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'PriceLowToHigh',
+  PriceHighToLow = 'PriceHighToLow',
+  TopRatedFirst = 'TopRatedFirst',
+}
