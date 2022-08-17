@@ -4,7 +4,7 @@ import { Offer } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
 function PropertyLocationList(): JSX.Element {
-  const offers = useAppSelector(getNearbyOffers);
+  const offers = useAppSelector(getNearbyOffers());
   return (
     <div className="near-places__list places__list">
       {

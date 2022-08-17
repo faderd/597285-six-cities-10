@@ -18,14 +18,14 @@ const CURRENT_CUSTOM_ICON = leaflet.icon({
 
 type MapProps = {
   selectedOfferId?: number;
-  mapClassName: string,
+  className: string,
   offers: Offers,
   currentCity: City,
 };
 
 const markerGroup = leaflet.layerGroup();
 
-function Map({ selectedOfferId, mapClassName, offers, currentCity }: MapProps): JSX.Element {
+function Map({ selectedOfferId, className, offers, currentCity }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity.location);
@@ -57,7 +57,7 @@ function Map({ selectedOfferId, mapClassName, offers, currentCity }: MapProps): 
 
   return (
     <section
-      className={`${mapClassName} map`}
+      className={`${className} map`}
       ref={mapRef}
     />
   );

@@ -22,6 +22,11 @@ export const getIsDataLoadedStatus = (state: State) => state[NameSpace.Data].isD
 
 export const getReviews = (state: State) => state[NameSpace.Data].reviews;
 
-export const getNearbyOffers = (state: State) => state[NameSpace.Data].nearbyOffers;
-
 export const getOfferById = (id: string | undefined) => (state: State) => state[NameSpace.Data].offers.find((offer: Offer) => offer.id.toString() === id);
+
+export const getNearbyOffers = (offer?: Offer) => (state: State) => {
+  if (!offer) {
+    return state[NameSpace.Data].nearbyOffers;
+  }
+  return [...state[NameSpace.Data].nearbyOffers, offer];
+};

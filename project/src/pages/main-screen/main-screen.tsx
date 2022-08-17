@@ -5,7 +5,7 @@ import OfferCard from '../../components/offer-card/offer-card';
 import PageHeader from '../../components/page-header/page-header';
 import SortingForm from '../../components/sorting-form/sorting-form';
 import { useAppSelector } from '../../hooks';
-import { getCurrentCity, getOffersCountFromCity, getOffersFromCity, getSortingType } from '../../store/app-data/selectors';
+import { getCurrentCity, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
 
 function MainScreen(): JSX.Element {
@@ -13,9 +13,6 @@ function MainScreen(): JSX.Element {
   const offersCount = useAppSelector(getOffersCountFromCity);
   const currentCity = useAppSelector(getCurrentCity);
   const offers = useAppSelector(getOffersFromCity);
-  const sortingType = useAppSelector(getSortingType);
-  // eslint-disable-next-line no-console
-  console.log(sortingType);
 
   return (
     <div className="page page--gray page--main">
@@ -51,7 +48,7 @@ function MainScreen(): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <Map selectedOfferId={activeCardId} mapClassName="cities__map" offers={offers} currentCity={currentCity} />
+              <Map selectedOfferId={activeCardId} className="cities__map" offers={offers} currentCity={currentCity} />
             </div>
           </div>
         </div>

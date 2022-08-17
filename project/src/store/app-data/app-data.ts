@@ -7,15 +7,13 @@ import { fetchOffers } from '../api-actions';
 
 export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
 
-const DEFAULT_SORING_TYPE = SortingType.Popular;
-
 export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
   offers: [],
   isDataLoaded: false,
   reviews: [],
   nearbyOffers: [],
-  sortingType: DEFAULT_SORING_TYPE,
+  sortingType: SortingType.Popular,
 });
 
 export const appData = createSlice({

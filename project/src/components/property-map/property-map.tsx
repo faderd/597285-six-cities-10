@@ -9,10 +9,10 @@ type PropertyMapProps = {
 };
 
 function PropertyMap({ currentCity, currentOffer }: PropertyMapProps): JSX.Element {
-  const offers = [...useAppSelector(getNearbyOffers), currentOffer];
+  const offers = useAppSelector(getNearbyOffers(currentOffer));
 
   return (
-    <Map selectedOfferId={currentOffer.id} mapClassName="property__map" offers={offers} currentCity={currentCity} />
+    <Map selectedOfferId={currentOffer.id} className="property__map" offers={offers} currentCity={currentCity} />
   );
 }
 
