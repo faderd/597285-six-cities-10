@@ -6,6 +6,7 @@ import { AppData } from '../../types/state';
 import { fetchOffers } from '../api-actions';
 
 export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
+export const DEFAULT_SORING_TYPE = SortingType.Popular;
 
 export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
@@ -13,7 +14,7 @@ export const getInitialStateAppData = (): AppData => ({
   isDataLoaded: false,
   reviews: [],
   nearbyOffers: [],
-  sortingType: SortingType.Popular,
+  sortingType: DEFAULT_SORING_TYPE,
 });
 
 export const appData = createSlice({

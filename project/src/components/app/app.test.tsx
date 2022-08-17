@@ -12,7 +12,7 @@ import App from './app';
 import thunk from 'redux-thunk';
 import { State } from '../../types/state';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import { DEFAULT_CITY } from '../../store/app-data/app-data';
+import { DEFAULT_CITY, DEFAULT_SORING_TYPE } from '../../store/app-data/app-data';
 
 const api = createAPI();
 const middleWares = [thunk.withExtraArgument(api)];
@@ -26,7 +26,7 @@ const offers: Offers = makeFakeOffers();
 
 const store = mockStore({
   USER: { authorizationStatus: AuthorizationStatus.Auth },
-  DATA: { isDataLoaded: true, offers: offers, city: DEFAULT_CITY, reviews: [], nearbyOffers: offers },
+  DATA: { isDataLoaded: true, offers: offers, city: DEFAULT_CITY, reviews: [], nearbyOffers: offers, sortingType: DEFAULT_SORING_TYPE },
 });
 
 const history = createMemoryHistory();
