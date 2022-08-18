@@ -5,6 +5,8 @@ type FavoriteLocationListProps = {
   offers: Offers;
 };
 
+const getFavoriteOffersFromCity = (offers: Offers, city: string) => offers.filter((offer: Offer) => offer.city.name === city);
+
 function FavoriteLocationList({ offers }: FavoriteLocationListProps): JSX.Element {
   const cities = Array.from(new Set(offers.map((offer) => offer.city.name)));
 
@@ -22,7 +24,7 @@ function FavoriteLocationList({ offers }: FavoriteLocationListProps): JSX.Elemen
             </div>
             <div className="favorites__places">
               {
-                offers.map((offer: Offer) => (
+                getFavoriteOffersFromCity(offers, city).map((offer: Offer) => (
                   <OfferCard
                     key={offer.id}
                     offer={offer}

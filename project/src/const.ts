@@ -72,6 +72,7 @@ export enum APIRoute {
   Reviews = '/comments/:offerId',
   Login = '/login',
   Logout = '/logout',
+  Favorite = '/favorite',
 }
 
 export enum NameSpace {
@@ -84,4 +85,9 @@ export enum SortingType {
   PriceLowToHigh = 'PriceLowToHigh',
   PriceHighToLow = 'PriceHighToLow',
   TopRatedFirst = 'TopRatedFirst',
+}
+
+export enum FavoriteActionStatus {
+  AddFavorite = '1',
+  RemoveFavorite = '0',
 }

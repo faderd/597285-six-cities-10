@@ -5,8 +5,9 @@ import PageHeader from '../../components/page-header/page-header';
 import PropertyLocationList from '../../components/property-location-list/property-location-list';
 import PropertyMap from '../../components/property-map/property-map';
 import Reviews from '../../components/reviews/reviews';
+import { FavoriteActionStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
+import { actionFavoriteOffer, fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
 import { storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
 import { getOfferById } from '../../store/app-data/selectors';
 import { isUserAuthorized } from '../../store/user-process/selectors';
@@ -74,8 +75,17 @@ function PropertyScreen(): JSX.Element {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className={bookmarkButtonClassName} type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
+                <button
+                  className={bookmarkButtonClassName}
+                  type="button"
+                  onClick={() => {
+                    const actionStatus = offer.isFavorite
+                      ? FavoriteActionStatus.RemoveFavorite
+                      : FavoriteActionStatus.AddFavorite;
+                    dispatch(actionFavoriteOffer({ offerId, actionStatus }));
+                  }}
+                >
+                  <svg className="property__bookmark-icon place-card__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>

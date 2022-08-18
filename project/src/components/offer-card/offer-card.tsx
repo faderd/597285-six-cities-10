@@ -1,5 +1,7 @@
 import { generatePath, Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, FavoriteActionStatus } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { actionFavoriteOffer } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
 
 type OfferCardProps = {
@@ -13,6 +15,7 @@ type OfferCardProps = {
 };
 
 function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName, imageWidth, imageHeight, cardInfoClassName }: OfferCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const favoriteClassName = offer.isFavorite
     ? 'place-card__bookmark-button--active '
     : '';
@@ -34,7 +37,17 @@ function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName
             <b className="place-card__price-value">&euro;{offer.price} </b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${favoriteClassName}`} type="button">
+          <button
+            className={`place-card__bookmark-button button ${favoriteClassName}`}
+            type="button"
+            onClick={() => {
+              const offerId = offer.id.toString();
+              const actionStatus = offer.isFavorite
+                ? FavoriteActionStatus.RemoveFavorite
+                : FavoriteActionStatus.AddFavorite;
+              dispatch(actionFavoriteOffer({ offerId, actionStatus }));
+            }}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

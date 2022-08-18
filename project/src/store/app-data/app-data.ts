@@ -15,6 +15,7 @@ export const getInitialStateAppData = (): AppData => ({
   reviews: [],
   nearbyOffers: [],
   sortingType: DEFAULT_SORING_TYPE,
+  favoriteOffers: [],
 });
 
 export const appData = createSlice({
@@ -36,6 +37,9 @@ export const appData = createSlice({
     storeSortingType: (state, action: PayloadAction<string>) => {
       state.sortingType = action.payload;
     },
+    storeFavoriteOffers: (state, action: PayloadAction<Offers>) => {
+      state.favoriteOffers = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -49,4 +53,4 @@ export const appData = createSlice({
   },
 });
 
-export const { changeActiveCity, storeOffer, storeReviews, storeNearbyOffers, storeSortingType } = appData.actions;
+export const { changeActiveCity, storeOffer, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers } = appData.actions;

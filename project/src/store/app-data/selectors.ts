@@ -30,3 +30,7 @@ export const getNearbyOffers = (offer?: Offer) => (state: State) => {
   }
   return [...state[NameSpace.Data].nearbyOffers, offer];
 };
+
+export const getFavoriteOffers = (state: State) => state[NameSpace.Data].favoriteOffers;
+
+export const getFavoriteOffersCount = (state: State) => getFavoriteOffers(state).length;

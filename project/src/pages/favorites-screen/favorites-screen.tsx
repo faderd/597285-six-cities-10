@@ -1,14 +1,13 @@
 import FavoriteLocationList from '../../components/favorite-location-list/favorite-location-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import PageHeader from '../../components/page-header/page-header';
-import { Offers } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
+import { getFavoriteOffers } from '../../store/app-data/selectors';
 
-type FavoritesScreenProps = {
-  offers: Offers;
-};
+function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector(getFavoriteOffers);
 
-function FavoritesScreen({ offers }: FavoritesScreenProps): JSX.Element {
-  if (!offers) {
+  if (offers.length === 0) {
     return (<FavoritesEmpty />);
   }
 

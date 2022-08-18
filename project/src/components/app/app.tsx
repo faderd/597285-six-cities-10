@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { favorites } from '../../mocks/favorites';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
@@ -36,7 +35,7 @@ function App(): JSX.Element {
         path={AppRoute.Favorites}
         element={
           <PrivateRoute>
-            <FavoritesScreen offers={favorites} />
+            <FavoritesScreen />
           </PrivateRoute>
         }
       />
