@@ -1,13 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { generatePath } from 'react-router-dom';
-import { APIRoute, FavoriteActionStatus } from '../const';
+import { APIRoute, AppRoute, FavoriteActionStatus } from '../const';
 import { dropToken, getToken, saveToken } from '../sevices/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
 import { Reviews, Review } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
+import { redirectToRoute } from './app-data/action';
 import { storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
 import { storeUser } from './user-process/user-process';
 
@@ -112,6 +113,7 @@ export const login = createAsyncThunk<void, AuthData, {
     saveToken(data.token);
     dispatch(storeUser(data));
     dispatch(fetchFavoriteOffers());
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 
