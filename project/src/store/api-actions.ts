@@ -5,7 +5,7 @@ import { APIRoute, FavoriteActionStatus } from '../const';
 import { dropToken, getToken, saveToken } from '../sevices/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
-import { Reviews } from '../types/review';
+import { Reviews, Review } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
@@ -72,17 +72,31 @@ export const fetchFavoriteOffers = createAsyncThunk<void, undefined, {
   },
 );
 
-export const actionFavoriteOffer = createAsyncThunk<Offer, {offerId: string, actionStatus: FavoriteActionStatus}, {
+export const pushActionFavoriteOffer = createAsyncThunk<Offer, {offerId: string, actionStatus: FavoriteActionStatus}, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/actionFavoriteOffer',
+  'data/pushActionFavoriteOffer',
   async ({ offerId, actionStatus }, { dispatch, extra: api }) => {
     const token = getToken();
     const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId }, {headers: { 'X-Token': token }});
     dispatch(fetchFavoriteOffers());
     dispatch(fetchOffers());
+    return data;
+  },
+);
+
+export const pushReview = createAsyncThunk<Review, {offerId: string, review: {comment: string, rating: number}}, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/pushReview',
+  async ({ offerId, review }, { dispatch, extra: api }) => {
+    const token = getToken();
+    const { data } = await api.post<Review>( generatePath(APIRoute.Reviews, { offerId: offerId }), review, {headers: { 'X-Token': token }});
+    dispatch(fetchOfferReviews(offerId));
     return data;
   },
 );

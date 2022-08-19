@@ -7,7 +7,7 @@ import PropertyMap from '../../components/property-map/property-map';
 import Reviews from '../../components/reviews/reviews';
 import { FavoriteActionStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { actionFavoriteOffer, fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
+import { pushActionFavoriteOffer, fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
 import { storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
 import { getOfferById } from '../../store/app-data/selectors';
 import { isUserAuthorized } from '../../store/user-process/selectors';
@@ -82,7 +82,7 @@ function PropertyScreen(): JSX.Element {
                     const actionStatus = offer.isFavorite
                       ? FavoriteActionStatus.RemoveFavorite
                       : FavoriteActionStatus.AddFavorite;
-                    dispatch(actionFavoriteOffer({ offerId, actionStatus }));
+                    dispatch(pushActionFavoriteOffer({ offerId, actionStatus }));
                   }}
                 >
                   <svg className="property__bookmark-icon place-card__bookmark-icon" width="31" height="33">
@@ -148,7 +148,7 @@ function PropertyScreen(): JSX.Element {
 
                 <Reviews />
 
-                {isAuthorized && (<ReviewForm />)}
+                {isAuthorized && (<ReviewForm offerId={offerId} />)}
 
               </section>
             </div>
