@@ -5,7 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../types/state';
 import { Action } from '@reduxjs/toolkit';
 import { APIRoute } from '../const';
-import { checkAuth, fetchOffers } from './api-actions';
+import { checkAuth, fetchFavoriteOffers, fetchOffers } from './api-actions';
 import { storeUser } from './user-process/user-process';
 import { makeFakeOffers } from '../utils/mocks';
 
@@ -35,6 +35,7 @@ describe('Async actions', () => {
     expect(actions).toEqual([
       checkAuth.pending.type,
       storeUser.type,
+      fetchFavoriteOffers.pending.type,
       checkAuth.fulfilled.type,
     ]);
   });
