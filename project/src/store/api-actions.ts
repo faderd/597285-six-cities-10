@@ -31,7 +31,7 @@ export const fetchOffer = createAsyncThunk<void, string, {
 }>(
   'data/fetchOffer',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offer>(generatePath(APIRoute.Offer, { offerId }));
+    const { data } = await api.get<Offer>(generatePath(APIRoute.Offer, { id: offerId }));
     dispatch(storeOffer(data));
   },
 );
