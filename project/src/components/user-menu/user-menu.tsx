@@ -21,7 +21,7 @@ function UserMenu(): JSX.Element {
               <img className="user__avatar" src={avatarUrl} alt="User avatar"/>
             </div>
             <span className="header__user-name user__name">{email}</span>
-            <span className="header__favorite-count">{favoriteOffersCount || '0'}</span>
+            <span className="header__favorite-count">{favoriteOffersCount}</span>
           </Link>
         </li>
         <li className="header__nav-item">

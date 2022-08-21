@@ -2,12 +2,12 @@ import FavoriteLocationList from '../../components/favorite-location-list/favori
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import PageHeader from '../../components/page-header/page-header';
 import { useAppSelector } from '../../hooks';
-import { getFavoriteOffers } from '../../store/app-data/selectors';
+import { getGroupedFavoritesOffers } from '../../store/app-data/selectors';
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector(getFavoriteOffers);
+  const groupedFavoritesOffers = useAppSelector(getGroupedFavoritesOffers);
 
-  if (offers.length === 0) {
+  if (groupedFavoritesOffers.length === 0) {
     return (<FavoritesEmpty />);
   }
 
@@ -21,7 +21,7 @@ function FavoritesScreen(): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
 
-            <FavoriteLocationList offers={offers} />
+            <FavoriteLocationList groupedFavoritesOffers={groupedFavoritesOffers} />
 
           </section>
         </div>
