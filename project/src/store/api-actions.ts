@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { generatePath } from 'react-router-dom';
 import { APIRoute, AppRoute, FavoriteActionStatus } from '../const';
-import { dropToken, getToken, saveToken } from '../sevices/token';
+import { dropToken, saveToken } from '../sevices/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
 import { Reviews, Review } from '../types/review';
@@ -67,36 +67,33 @@ export const fetchFavoriteOffers = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchFavoriteOffers',
   async (_arg, { dispatch, extra: api }) => {
-    const token = getToken();
-    const { data } = await api.get<Offers>(APIRoute.Favorite, { headers: {'X-Token': token}});
+    const { data } = await api.get<Offers>(APIRoute.Favorite);
     dispatch(storeFavoriteOffers(data));
   },
 );
 
-export const pushActionFavoriteOffer = createAsyncThunk<Offer, {offerId: string, actionStatus: FavoriteActionStatus}, {
+export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, actionStatus: FavoriteActionStatus }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/pushActionFavoriteOffer',
   async ({ offerId, actionStatus }, { dispatch, extra: api }) => {
-    const token = getToken();
-    const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId }, {headers: { 'X-Token': token }});
+    const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId });
     dispatch(fetchFavoriteOffers());
     dispatch(fetchOffers());
     return data;
   },
 );
 
-export const pushReview = createAsyncThunk<Review, {offerId: string, review: {comment: string, rating: number}}, {
+export const submitReview = createAsyncThunk<Review, { offerId: string, review: { comment: string, rating: number } }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/pushReview',
   async ({ offerId, review }, { dispatch, extra: api }) => {
-    const token = getToken();
-    const { data } = await api.post<Review>( generatePath(APIRoute.Reviews, { offerId: offerId }), review, {headers: { 'X-Token': token }});
+    const { data } = await api.post<Review>(generatePath(APIRoute.Reviews, { offerId: offerId }), review);
     dispatch(fetchOfferReviews(offerId));
     return data;
   },

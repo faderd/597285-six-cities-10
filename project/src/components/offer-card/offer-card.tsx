@@ -1,7 +1,7 @@
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, FavoriteActionStatus } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { pushActionFavoriteOffer } from '../../store/api-actions';
+import { toggleFavoriteOffer } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
 
 type OfferCardProps = {
@@ -45,7 +45,7 @@ function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName
               const actionStatus = offer.isFavorite
                 ? FavoriteActionStatus.RemoveFavorite
                 : FavoriteActionStatus.AddFavorite;
-              dispatch(pushActionFavoriteOffer({ offerId, actionStatus }));
+              dispatch(toggleFavoriteOffer({ offerId, actionStatus }));
             }}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

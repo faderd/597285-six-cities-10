@@ -1,7 +1,12 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
 import { RATING_LEVELS } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { pushReview } from '../../store/api-actions';
+import { submitReview } from '../../store/api-actions';
+
+enum CommentLength {
+  Min = 50,
+  Max = 300,
+}
 
 type ReviewFormProps = {
   offerId: string;
@@ -9,18 +14,31 @@ type ReviewFormProps = {
 
 function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const [commentFormState, setCommentFormState] = useState('');
-  const [ratingFormState, setRatingFormState] = useState(0);
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
-  const ratingChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => setRatingFormState(() => +target.value);
+  const ratingChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => setRating(+target.value);
+
+  const validate = (): boolean =>
+    comment.length >= CommentLength.Min &&
+    comment.length <= CommentLength.Max &&
+    rating > 0;
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      if (commentFormState && ratingFormState) {
-        dispatch(pushReview({ offerId, review: { comment: commentFormState, 'rating': ratingFormState } }));
-        setCommentFormState('');
-        setRatingFormState(0);
+      if (validate()) {
+        setSubmitting(true);
+        dispatch(submitReview({ offerId, review: { comment: comment, rating: rating } })).then((data) => {
+          if (!data.payload) {
+            setSubmitting(false);
+          } else {
+            setComment('');
+            setRating(0);
+            setSubmitting(false);
+          }
+        });
       }
     }}
     >
@@ -37,7 +55,8 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
                 id={`${value}-stars`}
                 type="radio"
                 onChange={ratingChangeHandler}
-                checked={ratingFormState === value}
+                checked={rating === value}
+                disabled={submitting}
               />
               <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={`${RATING_LEVELS[value - 1]}`}>
                 <svg className="form__star-image" width="37" height="33">
@@ -53,19 +72,22 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={commentFormState}
+        value={comment}
         onInput={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
-          setCommentFormState(() => target.value);
+          setComment(target.value);
         }}
+        minLength={CommentLength.Min}
+        maxLength={CommentLength.Max}
         required
+        disabled={submitting}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" >Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!validate()}>Submit</button>
       </div>
-    </form>
+    </form >
   );
 }
 
