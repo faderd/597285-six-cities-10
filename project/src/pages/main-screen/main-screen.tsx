@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import LocationsList from '../../components/locations-list/locations-list';
+import MainEmpty from '../../components/main-empty/main-empty';
 import Map from '../../components/map/map';
 import OfferCard from '../../components/offer-card/offer-card';
 import PageHeader from '../../components/page-header/page-header';
@@ -26,6 +27,12 @@ function MainScreen(): JSX.Element {
   if (!isDataLoaded) {
     return (
       <LoadingScreen />
+    );
+  }
+
+  if (!offers.length) {
+    return (
+      <MainEmpty />
     );
   }
 
