@@ -1,7 +1,6 @@
 import { FormEvent, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/api-actions';
 
@@ -21,7 +20,7 @@ function LoginScreen(): JSX.Element {
         password: passwordRef.current.value,
       }));
 
-      navigate(AppRoute.Main);
+      navigate(-1);
     }
   };
 
