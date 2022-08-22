@@ -9,13 +9,14 @@ import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
 import { storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
-import { getOfferById } from '../../store/app-data/selectors';
+import { getIsDataLoadedStatus, getOfferById } from '../../store/app-data/selectors';
 import { isUserAuthorized } from '../../store/user-process/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function PropertyScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-
+  const isDataLoaded = useAppSelector(getIsDataLoadedStatus);
   const offerId = useParams().id;
   const offer = useAppSelector(getOfferById(offerId));
   const isAuthorized = useAppSelector(isUserAuthorized);
@@ -37,6 +38,12 @@ function PropertyScreen(): JSX.Element {
       dispatch(storeNearbyOffers([]));
     };
   }, [dispatch, offer, offerId]);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!offerId || offer === undefined) {
     return (<NotFoundScreen />);

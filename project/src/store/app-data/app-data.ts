@@ -3,7 +3,7 @@ import { LOCATIONS, NameSpace, SortingType } from '../../const';
 import { City, Offer, Offers } from '../../types/offer';
 import { Reviews } from '../../types/review';
 import { AppData } from '../../types/state';
-import { fetchOffers } from '../api-actions';
+import { fetchOffer, fetchOffers } from '../api-actions';
 
 export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
 export const DEFAULT_SORING_TYPE = SortingType.Popular;
@@ -58,6 +58,12 @@ export const appData = createSlice({
       })
       .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<Offers>) => {
         state.offers = action.payload;
+        state.isDataLoaded = true;
+      })
+      .addCase(fetchOffer.pending, (state) => {
+        state.isDataLoaded = false;
+      })
+      .addCase(fetchOffer.fulfilled, (state) => {
         state.isDataLoaded = true;
       });
   },
