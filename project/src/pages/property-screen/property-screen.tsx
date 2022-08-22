@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 import ReviewForm from '../../components/form-submit-comment/form-submit-comment';
 import PageHeader from '../../components/page-header/page-header';
 import PropertyLocationList from '../../components/property-location-list/property-location-list';
@@ -35,15 +36,11 @@ function PropertyScreen(): JSX.Element {
       dispatch(storeReviews([]));
       dispatch(storeNearbyOffers([]));
     };
-  });
+  }, [dispatch, offer, offerId]);
 
   if (!offerId || offer === undefined) {
     return (<NotFoundScreen />);
   }
-
-  const bookmarkButtonClassName = offer.isFavorite
-    ? 'property__bookmark-button property__bookmark-button--active button'
-    : 'property__bookmark-button button';
 
   return (
     <div className="page">
@@ -74,12 +71,13 @@ function PropertyScreen(): JSX.Element {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className={bookmarkButtonClassName} type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <BookmarkButton
+                  offer={offer}
+                  buttonClassName="property__bookmark-button"
+                  buttonClassNameActive="property__bookmark-button--active"
+                  iconWidth={31}
+                  iconHeight={33}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -138,7 +136,7 @@ function PropertyScreen(): JSX.Element {
 
                 <Reviews />
 
-                {isAuthorized && (<ReviewForm />)}
+                {isAuthorized && (<ReviewForm offerId={offerId} />)}
 
               </section>
             </div>

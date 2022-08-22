@@ -1,6 +1,7 @@
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Offer } from '../../types/offer';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type OfferCardProps = {
   offer: Offer;
@@ -13,9 +14,6 @@ type OfferCardProps = {
 };
 
 function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName, imageWidth, imageHeight, cardInfoClassName }: OfferCardProps): JSX.Element {
-  const favoriteClassName = offer.isFavorite
-    ? 'place-card__bookmark-button--active '
-    : '';
 
   return (
     <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} >
@@ -34,12 +32,13 @@ function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName
             <b className="place-card__price-value">&euro;{offer.price} </b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${favoriteClassName}`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton
+            offer={offer}
+            buttonClassName="place-card__bookmark-button"
+            buttonClassNameActive="place-card__bookmark-button--active"
+            iconWidth={18}
+            iconHeight={19}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

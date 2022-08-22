@@ -20,4 +20,5 @@ export type AppData = {
   reviews: Reviews,
   nearbyOffers: Offers,
   sortingType: string,
+  favoriteOffers: Offers,
 };

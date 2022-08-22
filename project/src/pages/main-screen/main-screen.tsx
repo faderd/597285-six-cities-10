@@ -1,18 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LocationsList from '../../components/locations-list/locations-list';
 import Map from '../../components/map/map';
 import OfferCard from '../../components/offer-card/offer-card';
 import PageHeader from '../../components/page-header/page-header';
 import SortingForm from '../../components/sorting-form/sorting-form';
 import { useAppSelector } from '../../hooks';
-import { getCurrentCity, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
+import { store } from '../../store';
+import { fetchOffers } from '../../store/api-actions';
+import { getCurrentCity, getIsDataLoadedStatus, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
+
+  useEffect(() => {
+    store.dispatch(fetchOffers());
+  }, []);
+
+  const isDataLoaded = useAppSelector(getIsDataLoadedStatus);
   const [activeCardId, setActiveCardId] = useState<number>();
   const offersCount = useAppSelector(getOffersCountFromCity);
   const currentCity = useAppSelector(getCurrentCity);
   const offers = useAppSelector(getOffersFromCity);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <div className="page page--gray page--main">

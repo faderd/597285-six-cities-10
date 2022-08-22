@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { NameSpace } from '../../const';
-import { Offer } from '../../types/offer';
+import { GroupedFavoritesOffer, GroupedFavoritesOffers, Offer, Offers } from '../../types/offer';
 import { State } from '../../types/state';
 import { getSortingOffers } from '../../utils/common';
 
@@ -29,4 +29,26 @@ export const getNearbyOffers = (offer?: Offer) => (state: State) => {
     return state[NameSpace.Data].nearbyOffers;
   }
   return [...state[NameSpace.Data].nearbyOffers, offer];
+};
+
+export const getFavoriteOffers = (state: State) => state[NameSpace.Data].favoriteOffers;
+
+export const getFavoriteOffersCount = (state: State) => getFavoriteOffers(state).length || 0;
+
+export const getGroupedFavoritesOffers = (state: State) => {
+  const favoriteOffers: Offers = getFavoriteOffers(state);
+  const cities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
+  const groupedFavoritesOffers: GroupedFavoritesOffers = [];
+
+  cities.forEach((city) => {
+    const groupedFavoritesOffer: GroupedFavoritesOffer = {city: {name: city}, offers: []};
+    favoriteOffers.forEach((offer) => {
+      if (city === offer.city.name) {
+        groupedFavoritesOffer.offers.push(offer);
+      }
+    });
+
+    groupedFavoritesOffers.push(groupedFavoritesOffer);
+  });
+  return groupedFavoritesOffers;
 };

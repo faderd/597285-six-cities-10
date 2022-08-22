@@ -40,3 +40,7 @@ export type Offer = {
 };
 
 export type Offers = Offer[];
+
+export type GroupedFavoritesOffer = { city: { name: string }, offers: Offers };
+
+export type GroupedFavoritesOffers = GroupedFavoritesOffer[];

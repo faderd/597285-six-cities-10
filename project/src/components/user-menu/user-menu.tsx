@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logout } from '../../store/api-actions';
+import { getFavoriteOffersCount } from '../../store/app-data/selectors';
 import { getAvatarUrl, getEmail, isUserAuthorized } from '../../store/user-process/selectors';
 
 function UserMenu(): JSX.Element {
@@ -9,6 +10,7 @@ function UserMenu(): JSX.Element {
   const dispatch = useAppDispatch();
   const avatarUrl = useAppSelector(getAvatarUrl) || undefined;
   const isAuthorized = useAppSelector(isUserAuthorized);
+  const favoriteOffersCount = useAppSelector(getFavoriteOffersCount);
 
   if (isAuthorized) {
     return (
@@ -19,7 +21,7 @@ function UserMenu(): JSX.Element {
               <img className="user__avatar" src={avatarUrl} alt="User avatar"/>
             </div>
             <span className="header__user-name user__name">{email}</span>
-            <span className="header__favorite-count">3</span>
+            <span className="header__favorite-count">{favoriteOffersCount}</span>
           </Link>
         </li>
         <li className="header__nav-item">

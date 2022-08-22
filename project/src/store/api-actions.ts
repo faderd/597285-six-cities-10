@@ -1,14 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { generatePath } from 'react-router-dom';
-import { APIRoute } from '../const';
+import { APIRoute, AppRoute, FavoriteActionStatus } from '../const';
 import { dropToken, saveToken } from '../sevices/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
-import { Reviews } from '../types/review';
+import { Reviews, Review } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
+import { redirectToRoute } from './app-data/action';
+import { storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
 import { storeUser } from './user-process/user-process';
 
 export const fetchOffers = createAsyncThunk<Offers, undefined, {
@@ -30,7 +31,7 @@ export const fetchOffer = createAsyncThunk<void, string, {
 }>(
   'data/fetchOffer',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offer>(generatePath(APIRoute.Offer, { offerId }));
+    const { data } = await api.get<Offer>(generatePath(APIRoute.Offer, { id: offerId }));
     dispatch(storeOffer(data));
   },
 );
@@ -42,7 +43,7 @@ export const fetchOfferReviews = createAsyncThunk<void, string | undefined, {
 }>(
   'data/fetchReviews',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<Reviews>(generatePath(APIRoute.Reviews, {offerId: offerId}));
+    const { data } = await api.get<Reviews>(generatePath(APIRoute.Reviews, { offerId: offerId }));
     dispatch(storeReviews(data));
   },
 );
@@ -59,6 +60,45 @@ export const fetchNearbyOffers = createAsyncThunk<void, string, {
   },
 );
 
+export const fetchFavoriteOffers = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchFavoriteOffers',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<Offers>(APIRoute.Favorite);
+    dispatch(storeFavoriteOffers(data));
+  },
+);
+
+export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, actionStatus: FavoriteActionStatus }, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/pushActionFavoriteOffer',
+  async ({ offerId, actionStatus }, { dispatch, extra: api }) => {
+    const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId });
+    dispatch(fetchFavoriteOffers());
+    dispatch(fetchOffers());
+    return data;
+  },
+);
+
+export const submitReview = createAsyncThunk<Review, { offerId: string, review: { comment: string, rating: number } }, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/pushReview',
+  async ({ offerId, review }, { dispatch, extra: api }) => {
+    const { data } = await api.post<Review>(generatePath(APIRoute.Reviews, { offerId: offerId }), review);
+    dispatch(fetchOfferReviews(offerId));
+    return data;
+  },
+);
+
 export const login = createAsyncThunk<void, AuthData, {
   dispatch: AppDispatch,
   state: State,
@@ -69,6 +109,8 @@ export const login = createAsyncThunk<void, AuthData, {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(data.token);
     dispatch(storeUser(data));
+    dispatch(fetchFavoriteOffers());
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 
@@ -81,6 +123,7 @@ export const logout = createAsyncThunk<void, undefined, {
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+    dispatch(storeFavoriteOffers([]));
   },
 );
 
@@ -92,6 +135,11 @@ export const checkAuth = createAsyncThunk<void, undefined, {
   'checkAuth',
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get(APIRoute.Login);
-    dispatch(storeUser(data));
+    try {
+      dispatch(storeUser(data));
+      dispatch(fetchFavoriteOffers());
+    } catch {
+      dispatch(storeFavoriteOffers([]));
+    }
   },
 );
