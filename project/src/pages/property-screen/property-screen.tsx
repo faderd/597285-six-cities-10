@@ -6,7 +6,8 @@ import PageHeader from '../../components/page-header/page-header';
 import PropertyLocationList from '../../components/property-location-list/property-location-list';
 import PropertyMap from '../../components/property-map/property-map';
 import Reviews from '../../components/reviews/reviews';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
+import { store } from '../../store';
 import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
 import { storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
 import { getOfferById } from '../../store/app-data/selectors';
@@ -14,7 +15,6 @@ import { isUserAuthorized } from '../../store/user-process/selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function PropertyScreen(): JSX.Element {
-  const dispatch = useAppDispatch();
 
   const offerId = useParams().id;
   const offer = useAppSelector(getOfferById(offerId));
@@ -24,19 +24,19 @@ function PropertyScreen(): JSX.Element {
 
     if (offerId) {
       if (!offer) {
-        dispatch(fetchOffer(offerId));
+        store.dispatch(fetchOffer(offerId));
       }
 
-      dispatch(fetchOfferReviews(offerId));
-      dispatch(fetchNearbyOffers(offerId));
+      store.dispatch(fetchOfferReviews(offerId));
+      store.dispatch(fetchNearbyOffers(offerId));
     }
 
     return () => {
       // очистим store при размонтировании компонента
-      dispatch(storeReviews([]));
-      dispatch(storeNearbyOffers([]));
+      store.dispatch(storeReviews([]));
+      store.dispatch(storeNearbyOffers([]));
     };
-  });
+  }, [offer, offerId]);
 
   if (!offerId || offer === undefined) {
     return (<NotFoundScreen />);
