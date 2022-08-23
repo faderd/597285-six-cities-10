@@ -8,7 +8,7 @@ import { Offer, Offers } from '../types/offer';
 import { Reviews, Review } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
+import { clearFavoreteFlagsInOffers, storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
 import { storeUser } from './user-process/user-process';
 
 export const fetchOffers = createAsyncThunk<Offers, undefined, {
@@ -76,7 +76,7 @@ export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, ac
   state: State,
   extra: AxiosInstance
 }>(
-  'data/pushActionFavoriteOffer',
+  'data/toggleFavoriteOffer',
   async ({ offerId, actionStatus }, { dispatch, extra: api }) => {
     const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId });
     dispatch(fetchFavoriteOffers());
@@ -122,6 +122,7 @@ export const logout = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(storeFavoriteOffers([]));
+    dispatch(clearFavoreteFlagsInOffers());
   },
 );
 

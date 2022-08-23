@@ -50,6 +50,9 @@ export const appData = createSlice({
     storeFavoriteOffers: (state, action: PayloadAction<Offers>) => {
       state.favoriteOffers = action.payload;
     },
+    clearFavoreteFlagsInOffers: (state) => {
+      state.offers.forEach((offer) => { offer.isFavorite = false; });
+    },
   },
   extraReducers(builder) {
     builder
@@ -69,4 +72,4 @@ export const appData = createSlice({
   },
 });
 
-export const { changeActiveCity, storeOffer, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers } = appData.actions;
+export const { changeActiveCity, storeOffer, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers, clearFavoreteFlagsInOffers } = appData.actions;
