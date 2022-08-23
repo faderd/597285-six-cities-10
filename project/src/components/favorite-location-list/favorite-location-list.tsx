@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { GroupedFavoritesOffers } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
@@ -13,9 +14,9 @@ function FavoriteLocationList({ groupedFavoritesOffers }: FavoriteLocationListPr
           <li className="favorites__locations-items" key={groupedFavoritesOffer.city.name}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="/">
+                <Link className="locations__item-link" to="/">
                   <span>{groupedFavoritesOffer.city.name}</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="favorites__places">

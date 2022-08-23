@@ -1,5 +1,6 @@
 import FavoriteLocationList from '../../components/favorite-location-list/favorite-location-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import Footer from '../../components/footer/footer';
 import PageHeader from '../../components/page-header/page-header';
 import { useAppSelector } from '../../hooks';
 import { getGroupedFavoritesOffers } from '../../store/app-data/selectors';
@@ -27,11 +28,7 @@ function FavoritesScreen(): JSX.Element {
         </div>
       </main>
 
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }
