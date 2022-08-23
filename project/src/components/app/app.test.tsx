@@ -55,7 +55,6 @@ describe('Application Routing', () => {
 
     expect(screen.getByText(/E-mail/i)).toBeInTheDocument();
     expect(screen.getByText(/Password/i)).toBeInTheDocument();
-    expect(screen.getByText('Amsterdam')).toBeInTheDocument();
   });
 
   it('should render "FavoritesScreen" when user navigate to "/favorites"', () => {

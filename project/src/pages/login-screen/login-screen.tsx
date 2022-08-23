@@ -1,12 +1,16 @@
 import { FormEvent, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
+import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/api-actions';
+import { changeActiveCity } from '../../store/app-data/app-data';
+import { getRandomCity } from '../../utils/common';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const city = getRandomCity();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -54,9 +58,17 @@ function LoginScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="/">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                className="locations__item-link"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  dispatch(changeActiveCity(city));
+                  navigate(AppRoute.Main);
+                }}
+                to=""
+              >
+                <span>{city.name}</span>
+              </Link>
             </div>
           </section>
         </div>

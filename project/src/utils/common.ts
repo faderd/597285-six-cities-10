@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { SortingType } from '../const';
+import { LOCATIONS, SortingType } from '../const';
 import { Offers } from '../types/offer';
 
 export const humanizeDateReview = (date: string) => dayjs(date).format('MMMM YYYY');
@@ -12,3 +12,8 @@ const filters: {[key: string]: (arg0: Offers) => Offers} = {
 };
 
 export const getSortingOffers = (offers: Offers, sortingType: string): Offers => filters[sortingType](offers);
+
+export const getRandomCity = () => {
+  const randomIndex = Math.floor(Math.random() * (LOCATIONS.length + 1));
+  return LOCATIONS[randomIndex];
+};
