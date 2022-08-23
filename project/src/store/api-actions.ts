@@ -5,7 +5,7 @@ import { APIRoute, FavoriteActionStatus } from '../const';
 import { dropToken, saveToken } from '../sevices/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
-import { Reviews, Review } from '../types/review';
+import { Reviews, Review, SubmitReview } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { clearFavoreteFlagsInOffers, storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
@@ -85,7 +85,7 @@ export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, ac
   },
 );
 
-export const submitReview = createAsyncThunk<Review, { offerId: string, review: { comment: string, rating: number } }, {
+export const submitReview = createAsyncThunk<Review, SubmitReview, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance

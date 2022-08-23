@@ -80,8 +80,7 @@ function PropertyScreen(): JSX.Element {
                 </h1>
                 <BookmarkButton
                   offer={offer}
-                  buttonClassName="property__bookmark-button"
-                  buttonClassNameActive="property__bookmark-button--active"
+                  className="property__bookmark-button"
                   iconWidth={31}
                   iconHeight={33}
                 />

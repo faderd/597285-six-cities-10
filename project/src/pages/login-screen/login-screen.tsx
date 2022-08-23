@@ -67,7 +67,7 @@ function LoginScreen(): JSX.Element {
                 }}
                 to=""
               >
-                <span>{city.name}</span>
+                <span>{city && city.name}</span>
               </Link>
             </div>
           </section>

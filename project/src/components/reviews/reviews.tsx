@@ -1,15 +1,16 @@
 import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getReviews } from '../../store/app-data/selectors';
+import { getReviewsCount, getSortedReviews } from '../../store/app-data/selectors';
 import ReviewItem from '../review-item/review-item';
 
 function Reviews(): JSX.Element {
 
-  const reviews = useAppSelector(getReviews);
+  const reviews = useAppSelector(getSortedReviews);
+  const reviewsCount = useAppSelector(getReviewsCount);
 
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviewsCount}</span></h2>
 
       <ul className="reviews__list">
         {

@@ -34,8 +34,7 @@ function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName
           </div>
           <BookmarkButton
             offer={offer}
-            buttonClassName="place-card__bookmark-button"
-            buttonClassNameActive="place-card__bookmark-button--active"
+            className="place-card__bookmark-button"
             iconWidth={18}
             iconHeight={19}
           />

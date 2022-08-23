@@ -7,7 +7,6 @@ import { fetchOffer, fetchOffers } from '../api-actions';
 
 export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
 export const DEFAULT_SORING_TYPE = SortingType.Popular;
-const NUMBER_OF_REVIEWS = 10;
 
 export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
@@ -30,16 +29,7 @@ export const appData = createSlice({
       state.offers.push(action.payload);
     },
     storeReviews: (state, action: PayloadAction<Reviews>) => {
-      const reviews = Array.from(action.payload)
-        .sort((a, b) => {
-          const timeA = new Date(a.date).getTime();
-          const timeB = new Date(b.date).getTime();
-
-          return timeB - timeA;
-        })
-        .slice(0, NUMBER_OF_REVIEWS);
-
-      state.reviews = reviews;
+      state.reviews = action.payload;
     },
     storeNearbyOffers: (state, action: PayloadAction<Offers>) => {
       state.nearbyOffers = action.payload;

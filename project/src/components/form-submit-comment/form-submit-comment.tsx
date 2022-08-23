@@ -31,13 +31,11 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
       if (validate()) {
         setSubmitting(true);
         dispatch(submitReview({ offerId, review: { comment: comment, rating: rating } })).then((data) => {
-          if (!data.payload) {
-            setSubmitting(false);
-          } else {
+          if (data.payload) {
             setComment('');
             setRating(0);
-            setSubmitting(false);
           }
+          setSubmitting(false);
         });
       }
     }}
