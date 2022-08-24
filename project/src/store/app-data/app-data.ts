@@ -25,9 +25,6 @@ export const appData = createSlice({
     changeActiveCity: (state, action: PayloadAction<City>) => {
       state.city = action.payload;
     },
-    storeOffer: (state, action: PayloadAction<Offer>) => {
-      state.offers.push(action.payload);
-    },
     storeReviews: (state, action: PayloadAction<Reviews>) => {
       state.reviews = action.payload;
     },
@@ -40,8 +37,38 @@ export const appData = createSlice({
     storeFavoriteOffers: (state, action: PayloadAction<Offers>) => {
       state.favoriteOffers = action.payload;
     },
-    clearFavoreteFlagsInOffers: (state) => {
+    clearFavoriteFlagsInOffers: (state) => {
       state.offers.forEach((offer) => { offer.isFavorite = false; });
+      state.nearbyOffers.forEach((offer) => { offer.isFavorite = false; });
+    },
+    toggleFavoriteInStore: (state, action: PayloadAction<Offer>) => {
+      // поменяем флаг isFavorite оффера в offers
+      const offer = state.offers.find((currentOffer) => currentOffer.id === action.payload.id);
+
+      if (offer) {
+        offer.isFavorite = action.payload.isFavorite;
+      } else {
+        state.offers.push(action.payload);
+      }
+
+      // добавим/удалим offer из favoriteOffers
+      if (action.payload.isFavorite) {
+        state.favoriteOffers.push(action.payload);
+      } else {
+        state.favoriteOffers.forEach((favoriteOffer, index) => {
+          if (favoriteOffer.id === action.payload.id) {
+            state.favoriteOffers.splice(index, 1);
+          }
+        });
+      }
+
+      // поменяем флаг isFavorite оффера в nearbyOffers
+      state.nearbyOffers.forEach((nearbyOffer) => {
+        if (nearbyOffer.id === action.payload.id) {
+          nearbyOffer.isFavorite = action.payload.isFavorite;
+        }
+      });
+
     },
   },
   extraReducers(builder) {
@@ -56,10 +83,13 @@ export const appData = createSlice({
       .addCase(fetchOffer.pending, (state) => {
         state.isDataLoaded = false;
       })
-      .addCase(fetchOffer.fulfilled, (state) => {
+      .addCase(fetchOffer.fulfilled, (state, action: PayloadAction<Offer>) => {
+        if (!state.offers.find((offer) => offer.id === action.payload.id)) {
+          state.offers.push(action.payload);
+        }
         state.isDataLoaded = true;
       });
   },
 });
 
-export const { changeActiveCity, storeOffer, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers, clearFavoreteFlagsInOffers } = appData.actions;
+export const { changeActiveCity, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers, clearFavoriteFlagsInOffers, toggleFavoriteInStore } = appData.actions;

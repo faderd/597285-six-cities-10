@@ -8,7 +8,7 @@ import { Offer, Offers } from '../types/offer';
 import { Reviews, Review, SubmitReview } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { clearFavoreteFlagsInOffers, storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
+import { clearFavoriteFlagsInOffers, storeFavoriteOffers, storeNearbyOffers, storeReviews, toggleFavoriteInStore } from './app-data/app-data';
 import { storeUser } from './user-process/user-process';
 
 export const fetchOffers = createAsyncThunk<Offers, undefined, {
@@ -23,7 +23,7 @@ export const fetchOffers = createAsyncThunk<Offers, undefined, {
   },
 );
 
-export const fetchOffer = createAsyncThunk<void, string, {
+export const fetchOffer = createAsyncThunk<Offer, string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -31,7 +31,7 @@ export const fetchOffer = createAsyncThunk<void, string, {
   'data/fetchOffer',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<Offer>(generatePath(APIRoute.Offer, { id: offerId }));
-    dispatch(storeOffer(data));
+    return data;
   },
 );
 
@@ -71,7 +71,7 @@ export const fetchFavoriteOffers = createAsyncThunk<void, undefined, {
   },
 );
 
-export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, actionStatus: FavoriteActionStatus }, {
+export const toggleFavoriteOffer = createAsyncThunk<void, { offerId: string, actionStatus: FavoriteActionStatus }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -79,9 +79,7 @@ export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, ac
   'data/toggleFavoriteOffer',
   async ({ offerId, actionStatus }, { dispatch, extra: api }) => {
     const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId });
-    dispatch(fetchFavoriteOffers());
-    dispatch(fetchOffers());
-    return data;
+    dispatch(toggleFavoriteInStore(data));
   },
 );
 
@@ -122,7 +120,7 @@ export const logout = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(storeFavoriteOffers([]));
-    dispatch(clearFavoreteFlagsInOffers());
+    dispatch(clearFavoriteFlagsInOffers());
   },
 );
 
