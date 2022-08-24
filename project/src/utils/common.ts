@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { LOCATIONS, SortingType } from '../const';
+import { AuthorizationStatus, LOCATIONS, SortingType } from '../const';
 import { Offers } from '../types/offer';
 
 export const humanizeDateReview = (date: string) => dayjs(date).format('MMMM YYYY');
@@ -17,3 +17,6 @@ export const getRandomCity = () => {
   const randomIndex = Math.floor(Math.random() * (LOCATIONS.length + 1));
   return LOCATIONS[randomIndex];
 };
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
