@@ -7,8 +7,8 @@ import PropertyLocationList from '../../components/property-location-list/proper
 import PropertyMap from '../../components/property-map/property-map';
 import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from '../../store/api-actions';
-import { storeNearbyOffers, storeReviews } from '../../store/app-data/app-data';
+import { fetchNearbyOffers, fetchOffer } from '../../store/api-actions';
+import { storeNearbyOffers } from '../../store/app-data/app-data';
 import { getIsDataLoadedStatus, getOfferById } from '../../store/app-data/selectors';
 import { isUserAuthorized } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -22,22 +22,21 @@ function PropertyScreen(): JSX.Element {
   const isAuthorized = useAppSelector(isUserAuthorized);
 
   useEffect(() => {
+    if (offerId && !offer) {
+      dispatch(fetchOffer(offerId));
+    }
+  }, [dispatch, offer, offerId]);
 
+  useEffect(() => {
     if (offerId) {
-      if (!offer) {
-        dispatch(fetchOffer(offerId));
-      }
-
-      dispatch(fetchOfferReviews(offerId));
       dispatch(fetchNearbyOffers(offerId));
     }
 
     return () => {
       // очистим store при размонтировании компонента
-      dispatch(storeReviews([]));
       dispatch(storeNearbyOffers([]));
     };
-  }, [dispatch, offer, offerId]);
+  }, [dispatch, offerId]);
 
   if (!isDataLoaded) {
     return (
@@ -140,7 +139,7 @@ function PropertyScreen(): JSX.Element {
               </div>
               <section className="property__reviews reviews">
 
-                <Reviews />
+                <Reviews offerId={offerId} />
 
                 {isAuthorized && (<ReviewForm offerId={offerId} />)}
 
