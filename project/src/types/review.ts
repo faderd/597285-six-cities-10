@@ -12,3 +12,11 @@ export type Review = {
 };
 
 export type Reviews = Review[];
+
+export type SubmitReview = {
+  offerId: string,
+  review: {
+    comment: string,
+    rating: number,
+  }
+};

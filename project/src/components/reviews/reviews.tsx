@@ -1,15 +1,32 @@
-import { memo } from 'react';
-import { useAppSelector } from '../../hooks';
-import { getReviews } from '../../store/app-data/selectors';
+import { memo, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchOfferReviews } from '../../store/api-actions';
+import { storeReviews } from '../../store/app-data/app-data';
+import { getReviewsCount, getSortedReviews } from '../../store/app-data/selectors';
 import ReviewItem from '../review-item/review-item';
 
-function Reviews(): JSX.Element {
+type ReviewProps = {
+  offerId: string,
+};
 
-  const reviews = useAppSelector(getReviews);
+function Reviews({ offerId }: ReviewProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const reviews = useAppSelector(getSortedReviews);
+  const reviewsCount = useAppSelector(getReviewsCount);
+
+  useEffect(() => {
+    dispatch(fetchOfferReviews(offerId));
+
+    return () => {
+      // очистим store при размонтировании компонента
+      dispatch(storeReviews([]));
+    };
+  }, [dispatch, offerId]);
 
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviewsCount}</span></h2>
 
       <ul className="reviews__list">
         {

@@ -1,15 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { generatePath } from 'react-router-dom';
-import { APIRoute, AppRoute, FavoriteActionStatus } from '../const';
+import { APIRoute, FavoriteActionStatus } from '../const';
 import { dropToken, saveToken } from '../sevices/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
-import { Reviews, Review } from '../types/review';
+import { Reviews, Review, SubmitReview } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { redirectToRoute } from './app-data/action';
-import { storeFavoriteOffers, storeNearbyOffers, storeOffer, storeReviews } from './app-data/app-data';
+import { clearFavoriteFlagsInOffers, storeFavoriteOffers, storeNearbyOffers, storeReviews, toggleFavoriteInStore } from './app-data/app-data';
 import { storeUser } from './user-process/user-process';
 
 export const fetchOffers = createAsyncThunk<Offers, undefined, {
@@ -24,7 +23,7 @@ export const fetchOffers = createAsyncThunk<Offers, undefined, {
   },
 );
 
-export const fetchOffer = createAsyncThunk<void, string, {
+export const fetchOffer = createAsyncThunk<Offer, string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -32,7 +31,7 @@ export const fetchOffer = createAsyncThunk<void, string, {
   'data/fetchOffer',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<Offer>(generatePath(APIRoute.Offer, { id: offerId }));
-    dispatch(storeOffer(data));
+    return data;
   },
 );
 
@@ -72,21 +71,19 @@ export const fetchFavoriteOffers = createAsyncThunk<void, undefined, {
   },
 );
 
-export const toggleFavoriteOffer = createAsyncThunk<Offer, { offerId: string, actionStatus: FavoriteActionStatus }, {
+export const toggleFavoriteOffer = createAsyncThunk<void, { offerId: string, actionStatus: FavoriteActionStatus }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/pushActionFavoriteOffer',
+  'data/toggleFavoriteOffer',
   async ({ offerId, actionStatus }, { dispatch, extra: api }) => {
     const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${actionStatus}`, { offerId });
-    dispatch(fetchFavoriteOffers());
-    dispatch(fetchOffers());
-    return data;
+    dispatch(toggleFavoriteInStore(data));
   },
 );
 
-export const submitReview = createAsyncThunk<Review, { offerId: string, review: { comment: string, rating: number } }, {
+export const submitReview = createAsyncThunk<Review, SubmitReview, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -110,7 +107,6 @@ export const login = createAsyncThunk<void, AuthData, {
     saveToken(data.token);
     dispatch(storeUser(data));
     dispatch(fetchFavoriteOffers());
-    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 
@@ -124,6 +120,7 @@ export const logout = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(storeFavoriteOffers([]));
+    dispatch(clearFavoriteFlagsInOffers());
   },
 );
 

@@ -1,27 +1,35 @@
-import { FavoriteActionStatus } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute, FavoriteActionStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toggleFavoriteOffer } from '../../store/api-actions';
+import { isUserAuthorized } from '../../store/user-process/selectors';
 import { Offer } from '../../types/offer';
 
 type BookmarkButtonProps = {
   offer: Offer;
-  buttonClassName: string;
+  className: string;
   iconWidth: number;
   iconHeight: number;
-  buttonClassNameActive: string;
 };
 
-function BookmarkButton({ offer, buttonClassName, iconHeight, iconWidth, buttonClassNameActive }: BookmarkButtonProps): JSX.Element {
+function BookmarkButton({ offer, className, iconHeight, iconWidth }: BookmarkButtonProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuthorized = useAppSelector(isUserAuthorized);
   const favoriteClassName = offer.isFavorite
-    ? buttonClassNameActive
+    ? `${className}--active`
     : '';
 
   return (
     <button
-      className={`${buttonClassName} ${favoriteClassName} button`}
+      className={`${className} ${favoriteClassName} button`}
       type="button"
       onClick={() => {
+        if (!isAuthorized) {
+          navigate(AppRoute.Login);
+        }
+
         const offerId = offer.id.toString();
         const actionStatus = offer.isFavorite
           ? FavoriteActionStatus.RemoveFavorite
@@ -37,4 +45,4 @@ function BookmarkButton({ offer, buttonClassName, iconHeight, iconWidth, buttonC
   );
 }
 
-export default BookmarkButton;
+export default memo(BookmarkButton);

@@ -91,3 +91,5 @@ export enum FavoriteActionStatus {
   AddFavorite = '1',
   RemoveFavorite = '0',
 }
+
+export const NUMBER_OF_REVIEWS = 10;

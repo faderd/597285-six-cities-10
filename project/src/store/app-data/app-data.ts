@@ -3,11 +3,10 @@ import { LOCATIONS, NameSpace, SortingType } from '../../const';
 import { City, Offer, Offers } from '../../types/offer';
 import { Reviews } from '../../types/review';
 import { AppData } from '../../types/state';
-import { fetchOffers } from '../api-actions';
+import { fetchOffer, fetchOffers } from '../api-actions';
 
 export const DEFAULT_CITY: City = LOCATIONS.find((location) => location.name === 'Paris') || LOCATIONS[0];
 export const DEFAULT_SORING_TYPE = SortingType.Popular;
-const NUMBER_OF_REVIEWS = 10;
 
 export const getInitialStateAppData = (): AppData => ({
   city: DEFAULT_CITY,
@@ -26,20 +25,8 @@ export const appData = createSlice({
     changeActiveCity: (state, action: PayloadAction<City>) => {
       state.city = action.payload;
     },
-    storeOffer: (state, action: PayloadAction<Offer>) => {
-      state.offers.push(action.payload);
-    },
     storeReviews: (state, action: PayloadAction<Reviews>) => {
-      const reviews = Array.from(action.payload)
-        .sort((a, b) => {
-          const timeA = new Date(a.date).getTime();
-          const timeB = new Date(b.date).getTime();
-
-          return timeB - timeA;
-        })
-        .slice(0, NUMBER_OF_REVIEWS);
-
-      state.reviews = reviews;
+      state.reviews = action.payload;
     },
     storeNearbyOffers: (state, action: PayloadAction<Offers>) => {
       state.nearbyOffers = action.payload;
@@ -50,6 +37,39 @@ export const appData = createSlice({
     storeFavoriteOffers: (state, action: PayloadAction<Offers>) => {
       state.favoriteOffers = action.payload;
     },
+    clearFavoriteFlagsInOffers: (state) => {
+      state.offers.forEach((offer) => { offer.isFavorite = false; });
+      state.nearbyOffers.forEach((offer) => { offer.isFavorite = false; });
+    },
+    toggleFavoriteInStore: (state, action: PayloadAction<Offer>) => {
+      // поменяем флаг isFavorite оффера в offers
+      const offer = state.offers.find((currentOffer) => currentOffer.id === action.payload.id);
+
+      if (offer) {
+        offer.isFavorite = action.payload.isFavorite;
+      } else {
+        state.offers.push(action.payload);
+      }
+
+      // добавим/удалим offer из favoriteOffers
+      if (action.payload.isFavorite) {
+        state.favoriteOffers.push(action.payload);
+      } else {
+        state.favoriteOffers.forEach((favoriteOffer, index) => {
+          if (favoriteOffer.id === action.payload.id) {
+            state.favoriteOffers.splice(index, 1);
+          }
+        });
+      }
+
+      // поменяем флаг isFavorite оффера в nearbyOffers
+      state.nearbyOffers.forEach((nearbyOffer) => {
+        if (nearbyOffer.id === action.payload.id) {
+          nearbyOffer.isFavorite = action.payload.isFavorite;
+        }
+      });
+
+    },
   },
   extraReducers(builder) {
     builder
@@ -59,8 +79,17 @@ export const appData = createSlice({
       .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<Offers>) => {
         state.offers = action.payload;
         state.isDataLoaded = true;
+      })
+      .addCase(fetchOffer.pending, (state) => {
+        state.isDataLoaded = false;
+      })
+      .addCase(fetchOffer.fulfilled, (state, action: PayloadAction<Offer>) => {
+        if (!state.offers.find((offer) => offer.id === action.payload.id)) {
+          state.offers.push(action.payload);
+        }
+        state.isDataLoaded = true;
       });
   },
 });
 
-export const { changeActiveCity, storeOffer, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers } = appData.actions;
+export const { changeActiveCity, storeReviews, storeNearbyOffers, storeSortingType, storeFavoriteOffers, clearFavoriteFlagsInOffers, toggleFavoriteInStore } = appData.actions;

@@ -29,42 +29,68 @@ function MainScreen(): JSX.Element {
     );
   }
 
+  const pageMainClass = offers.length
+    ? ''
+    : 'page__main--index-empty';
+
+  const containerClassName = offers.length
+    ? ''
+    : 'cities__places-container--empty';
+
+  const sectionClassName = offers.length
+    ? 'cities__places places'
+    : 'cities__no-places';
+
   return (
     <div className="page page--gray page--main">
 
       <PageHeader isMainScreen />
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${pageMainClass}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <LocationsList />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in {currentCity.name}</b>
-              <SortingForm />
-              <div className="cities__places-list places__list tabs__content">
-                {
-                  offers.map((offer: Offer) => (
-                    <OfferCard
-                      key={offer.id}
-                      onMouseOver={() => setActiveCardId(offer.id)}
-                      offer={offer}
-                      articleClassName="cities__card"
-                      imageWrapperClassName="cities__image-wrapper"
-                      imageWidth="260"
-                      imageHeight="200"
-                      cardInfoClassName=""
-                    />
-                  ))
-                }
-              </div>
+          <div className={`cities__places-container container ${containerClassName}`}>
+            <section className={sectionClassName}>
+              {!offers.length && (
+                <div className="cities__status-wrapper tabs__content">
+                  <b className="cities__status">No places to stay available</b>
+                  <p className="cities__status-description">We could not find any property available at the moment in {currentCity.name}</p>
+                </div>
+              )}
+              {offers.length !== 0 && (
+                <>
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{offersCount} places to stay in {currentCity.name}</b>
+                  <SortingForm />
+                  <div className="cities__places-list places__list tabs__content">
+                    {
+                      offers.map((offer: Offer) => (
+                        <OfferCard
+                          key={offer.id}
+                          onMouseOver={() => setActiveCardId(offer.id)}
+                          offer={offer}
+                          articleClassName="cities__card"
+                          imageWrapperClassName="cities__image-wrapper"
+                          imageWidth="260"
+                          imageHeight="200"
+                          cardInfoClassName=""
+                        />
+                      ))
+                    }
+                  </div>
+                </>
+              )}
             </section>
+
             <div className="cities__right-section">
-              <Map selectedOfferId={activeCardId} className="cities__map" offers={offers} currentCity={currentCity} />
+              {offers.length !== 0 && (
+                <Map selectedOfferId={activeCardId} className="cities__map" offers={offers} currentCity={currentCity} />
+              )}
             </div>
+
           </div>
         </div>
       </main>
