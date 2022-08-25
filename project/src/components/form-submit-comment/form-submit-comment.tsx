@@ -18,7 +18,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const [rating, setRating] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
-  const ratingChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => setRating(+target.value);
+  const handleRatingChange = ({ target }: ChangeEvent<HTMLInputElement>) => setRating(+target.value);
 
   const validate = (): boolean =>
     comment.length >= CommentLength.Min &&
@@ -52,7 +52,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
                 value={`${value}`}
                 id={`${value}-stars`}
                 type="radio"
-                onChange={ratingChangeHandler}
+                onChange={handleRatingChange}
                 checked={rating === value}
                 disabled={submitting}
               />

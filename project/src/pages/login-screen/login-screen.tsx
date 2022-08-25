@@ -2,18 +2,25 @@ import { FormEvent, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import { AppRoute } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { login } from '../../store/api-actions';
+import { redirectToRoute } from '../../store/app-data/action';
 import { changeActiveCity } from '../../store/app-data/app-data';
+import { isUserAuthorized } from '../../store/user-process/selectors';
 import { getRandomCity } from '../../utils/common';
 
 function LoginScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const city = getRandomCity();
+  const isUserAuth = useAppSelector(isUserAuthorized);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  if (isUserAuth) {
+    dispatch(redirectToRoute(AppRoute.Main));
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -51,7 +58,15 @@ function LoginScreen(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef} />
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  ref={passwordRef}
+                  pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{2}$"
+                />
               </div>
               <button className="login__submit form__submit button" type="submit" >Sign in</button>
             </form>

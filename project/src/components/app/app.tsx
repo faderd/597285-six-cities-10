@@ -7,14 +7,15 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import MainScreen from '../../pages/main-screen/main-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { isCheckedAuth } from '../../utils/common';
+import { isAuthUnknown } from '../../store/user-process/selectors';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthStatusUnknown = useAppSelector(isAuthUnknown);
 
-  if (isCheckedAuth(authorizationStatus)) {
+  if (isAuthStatusUnknown) {
+    // во избежание переадресации на страницу авторизации раньше времени,
+    // покажем прелоадер, пока статус unknown
     return (
       <LoadingScreen />
     );
@@ -35,7 +36,7 @@ function App(): JSX.Element {
       <Route
         path={AppRoute.Favorites}
         element={
-          <PrivateRoute authorizationStatus={authorizationStatus}>
+          <PrivateRoute>
             <FavoritesScreen />
           </PrivateRoute>
         }

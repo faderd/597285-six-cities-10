@@ -26,19 +26,19 @@ function SortingForm(): JSX.Element {
         tabIndex={0}
         onClick={() => setIsPlacesSortingOpened(!isPlacesSortingOpened)}
       >
-        {getSortingTypeLabel()}
+        <span>{getSortingTypeLabel()}</span>
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul
-        className={classNames('places__options places__options--custom', {'places__options--opened': isPlacesSortingOpened})}
+        className={classNames('places__options places__options--custom', { 'places__options--opened': isPlacesSortingOpened })}
       >
         {
           SORTING_TYPES.map((type) => (
             <li
               key={type.value}
-              className={classNames('places__option', { 'places__option--active': type.value === sortingType})}
+              className={classNames('places__option', { 'places__option--active': type.value === sortingType })}
               tabIndex={0}
               onClick={() => {
                 dispatch(storeSortingType(type.value));

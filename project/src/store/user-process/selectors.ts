@@ -10,3 +10,5 @@ export const getEmail = (state: State) => getUser(state).email;
 export const getAvatarUrl = (state: State) => getUser(state).avatarUrl;
 
 export const isUserAuthorized = (state: State) => state[NameSpace.User].authorizationStatus === AuthorizationStatus.Auth;
+
+export const isAuthUnknown = (state: State) => state[NameSpace.User].authorizationStatus === AuthorizationStatus.Unknown;

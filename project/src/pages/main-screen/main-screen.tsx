@@ -4,18 +4,18 @@ import Map from '../../components/map/map';
 import OfferCard from '../../components/offer-card/offer-card';
 import PageHeader from '../../components/page-header/page-header';
 import SortingForm from '../../components/sorting-form/sorting-form';
-import { useAppSelector } from '../../hooks';
-import { store } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchOffers } from '../../store/api-actions';
 import { getCurrentCity, getIsDataLoadedStatus, getOffersCountFromCity, getOffersFromCity } from '../../store/app-data/selectors';
 import { Offer } from '../../types/offer';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    store.dispatch(fetchOffers());
-  }, []);
+    dispatch(fetchOffers());
+  }, [dispatch]);
 
   const isDataLoaded = useAppSelector(getIsDataLoadedStatus);
   const [activeCardId, setActiveCardId] = useState<number>();
@@ -54,35 +54,34 @@ function MainScreen(): JSX.Element {
         <div className="cities">
           <div className={`cities__places-container container ${containerClassName}`}>
             <section className={sectionClassName}>
-              {!offers.length && (
-                <div className="cities__status-wrapper tabs__content">
-                  <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">We could not find any property available at the moment in {currentCity.name}</p>
-                </div>
-              )}
-              {offers.length !== 0 && (
-                <>
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{offersCount} places to stay in {currentCity.name}</b>
-                  <SortingForm />
-                  <div className="cities__places-list places__list tabs__content">
-                    {
-                      offers.map((offer: Offer) => (
-                        <OfferCard
-                          key={offer.id}
-                          onMouseOver={() => setActiveCardId(offer.id)}
-                          offer={offer}
-                          articleClassName="cities__card"
-                          imageWrapperClassName="cities__image-wrapper"
-                          imageWidth="260"
-                          imageHeight="200"
-                          cardInfoClassName=""
-                        />
-                      ))
-                    }
-                  </div>
-                </>
-              )}
+              {offers.length === 0
+                ? (
+                  <div className="cities__status-wrapper tabs__content">
+                    <b className="cities__status">No places to stay available</b>
+                    <p className="cities__status-description">We could not find any property available at the moment in {currentCity.name}</p>
+                  </div>)
+                : (
+                  <>
+                    <h2 className="visually-hidden">Places</h2>
+                    <b className="places__found">{offersCount} places to stay in {currentCity.name}</b>
+                    <SortingForm />
+                    <div className="cities__places-list places__list tabs__content">
+                      {
+                        offers.map((offer: Offer) => (
+                          <OfferCard
+                            key={offer.id}
+                            onMouseOver={() => setActiveCardId(offer.id)}
+                            offer={offer}
+                            articleClassName="cities__card"
+                            imageWrapperClassName="cities__image-wrapper"
+                            imageWidth="260"
+                            imageHeight="200"
+                            cardInfoClassName=""
+                          />
+                        ))
+                      }
+                    </div>
+                  </>)}
             </section>
 
             <div className="cities__right-section">

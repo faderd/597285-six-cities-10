@@ -59,7 +59,7 @@ function PropertyScreen(): JSX.Element {
             <div className="property__gallery">
               {
                 offer.images.map((imageUrl, index) => (
-                  <div key={`${index + 1}`} className="property__image-wrapper">
+                  <div key={`${index + 1}-image`} className="property__image-wrapper">
                     <img className="property__image" src={imageUrl} alt="Studio" />
                   </div>
                 ))
@@ -111,7 +111,7 @@ function PropertyScreen(): JSX.Element {
                 <ul className="property__inside-list">
                   {
                     offer.goods.map((item, index) => (
-                      <li key={`${index + 1}`} className="property__inside-item">
+                      <li key={`${index + 1}-offer`} className="property__inside-item">
                         {item}
                       </li>
                     ))
