@@ -24,22 +24,22 @@ const mockStore = configureMockStore<
 >(middleWares);
 const offers: Offers = makeFakeOffers();
 
-const store = mockStore({
-  USER: { authorizationStatus: AuthorizationStatus.Auth },
-  DATA: { ...getInitialStateAppData(), isDataLoaded: true, offers: offers, nearbyOffers: offers, favoriteOffers: offers },
-});
+describe('Application Routing with authorization user', () => {
+  const store = mockStore({
+    USER: { authorizationStatus: AuthorizationStatus.Auth },
+    DATA: { ...getInitialStateAppData(), isDataLoaded: true, offers: offers, nearbyOffers: offers, favoriteOffers: offers },
+  });
 
-const history = createMemoryHistory();
+  const history = createMemoryHistory();
 
-const fakeApp = (
-  <Provider store={store}>
-    <HistoryRouter history={history}>
-      <App />
-    </HistoryRouter>
-  </Provider>
-);
+  const fakeApp = (
+    <Provider store={store}>
+      <HistoryRouter history={history}>
+        <App />
+      </HistoryRouter>
+    </Provider>
+  );
 
-describe('Application Routing', () => {
   it('should render "MainScreen" when user navigate to "/"', () => {
     history.push(AppRoute.Main);
 
@@ -48,13 +48,12 @@ describe('Application Routing', () => {
     expect(screen.getByText(new RegExp(`places to stay in ${DEFAULT_CITY.name}`, 'i'))).toBeInTheDocument();
   });
 
-  it('should render "AuthScreen" when user navigate to "/login"', () => {
+  it('should render "MainScreen" when authorized user navigate to "/login"', () => {
     history.push(AppRoute.Login);
 
-    render(fakeApp);
+    render(fakeApp,);
 
-    expect(screen.getByText(/E-mail/i)).toBeInTheDocument();
-    expect(screen.getByText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`places to stay in ${DEFAULT_CITY.name}`, 'i'))).toBeInTheDocument();
   });
 
   it('should render "FavoritesScreen" when user navigate to "/favorites"', () => {
@@ -80,5 +79,31 @@ describe('Application Routing', () => {
 
     expect(screen.getByText('Nothing found')).toBeInTheDocument();
     expect(screen.getByText('Go back to the main page')).toBeInTheDocument();
+  });
+});
+
+describe('Application Routing with no authorization user', () => {
+  const store = mockStore({
+    USER: { authorizationStatus: AuthorizationStatus.NoAuth },
+    DATA: { ...getInitialStateAppData(), isDataLoaded: true, offers: offers, nearbyOffers: offers, favoriteOffers: offers },
+  });
+
+  const history = createMemoryHistory();
+
+  const fakeApp = (
+    <Provider store={store}>
+      <HistoryRouter history={history}>
+        <App />
+      </HistoryRouter>
+    </Provider>
+  );
+
+  it('should render "MainScreen" when no authorized user navigate to "/login"', () => {
+    history.push(AppRoute.Login);
+
+    render(fakeApp,);
+
+    expect(screen.getByText(/E-mail/i)).toBeInTheDocument();
+    expect(screen.getByText(/Password/i)).toBeInTheDocument();
   });
 });
