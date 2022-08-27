@@ -9,27 +9,35 @@ function useMap(
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
-      const instance = leaflet.map(mapRef.current, {
-        center: {
-          lat: startLocation.latitude,
-          lng: startLocation.longitude,
-        },
-        zoom: startLocation.zoom,
-      });
+    let isMounted = true;
 
-      leaflet
-        .tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-          {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    if (isMounted) {
+      if (mapRef.current !== null && !isRenderedRef.current) {
+        const instance = leaflet.map(mapRef.current, {
+          center: {
+            lat: startLocation.latitude,
+            lng: startLocation.longitude,
           },
-        )
-        .addTo(instance);
+          zoom: startLocation.zoom,
+        });
 
-      setMap(instance);
-      isRenderedRef.current = true;
+        leaflet
+          .tileLayer(
+            'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            },
+          )
+          .addTo(instance);
+
+        setMap(instance);
+        isRenderedRef.current = true;
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [mapRef, map, startLocation]);
 
   return map;

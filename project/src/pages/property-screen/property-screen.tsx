@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
-import ReviewForm from '../../components/form-submit-comment/form-submit-comment';
+import ReviewForm from '../../components/review-form/review-form';
 import PageHeader from '../../components/page-header/page-header';
 import PropertyLocationList from '../../components/property-location-list/property-location-list';
 import PropertyMap from '../../components/property-map/property-map';
@@ -13,6 +13,8 @@ import { getIsDataLoadedStatus, getOfferById } from '../../store/app-data/select
 import { isUserAuthorized } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+
+const NUMBERS_OF_IMAGES = 6;
 
 function PropertyScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -38,14 +40,14 @@ function PropertyScreen(): JSX.Element {
     };
   }, [dispatch, offerId]);
 
+  if (!offerId || offer === undefined) {
+    return (<NotFoundScreen />);
+  }
+
   if (!isDataLoaded) {
     return (
       <LoadingScreen />
     );
-  }
-
-  if (!offerId || offer === undefined) {
-    return (<NotFoundScreen />);
   }
 
   return (
@@ -58,7 +60,7 @@ function PropertyScreen(): JSX.Element {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                offer.images.map((imageUrl, index) => (
+                offer.images.slice(0, NUMBERS_OF_IMAGES).map((imageUrl, index) => (
                   <div key={`${index + 1}-image`} className="property__image-wrapper">
                     <img className="property__image" src={imageUrl} alt="Studio" />
                   </div>
@@ -86,7 +88,7 @@ function PropertyScreen(): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: `${offer.rating / 5 * 100}%` }}></span>
+                  <span style={{ width: `${Math.round(offer.rating) / 5 * 100}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{offer.rating}</span>

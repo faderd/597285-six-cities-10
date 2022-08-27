@@ -1,10 +1,9 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { login } from '../../store/api-actions';
-import { redirectToRoute } from '../../store/app-data/action';
 import { changeActiveCity } from '../../store/app-data/app-data';
 import { isUserAuthorized } from '../../store/user-process/selectors';
 import { getRandomCity } from '../../utils/common';
@@ -18,9 +17,11 @@ function LoginScreen(): JSX.Element {
   const city = getRandomCity();
   const isUserAuth = useAppSelector(isUserAuthorized);
 
-  if (isUserAuth) {
-    dispatch(redirectToRoute(AppRoute.Main));
-  }
+  useEffect(() => {
+    if (isUserAuth) {
+      navigate(AppRoute.Main);
+    }
+  });
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -65,7 +66,7 @@ function LoginScreen(): JSX.Element {
                   placeholder="Password"
                   required
                   ref={passwordRef}
-                  pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{2}$"
+                  pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{2,}$"
                 />
               </div>
               <button className="login__submit form__submit button" type="submit" >Sign in</button>

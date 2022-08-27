@@ -3,6 +3,8 @@ import { RATING_LEVELS } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { submitReview } from '../../store/api-actions';
 
+const INITIAL_RATING = 0;
+
 enum CommentLength {
   Min = 50,
   Max = 300,
@@ -15,7 +17,7 @@ type ReviewFormProps = {
 function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(INITIAL_RATING);
   const [submitting, setSubmitting] = useState(false);
 
   const handleRatingChange = ({ target }: ChangeEvent<HTMLInputElement>) => setRating(+target.value);
@@ -33,7 +35,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         dispatch(submitReview({ offerId, review: { comment: comment, rating: rating } })).then((data) => {
           if (data.payload) {
             setComment('');
-            setRating(0);
+            setRating(INITIAL_RATING);
           }
           setSubmitting(false);
         });
@@ -83,7 +85,13 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!validate()}>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={!validate() || submitting}
+        >
+          Submit
+        </button>
       </div>
     </form >
   );

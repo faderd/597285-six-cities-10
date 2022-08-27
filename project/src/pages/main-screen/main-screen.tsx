@@ -71,6 +71,7 @@ function MainScreen(): JSX.Element {
                           <OfferCard
                             key={offer.id}
                             onMouseOver={() => setActiveCardId(offer.id)}
+                            onMouseOut={() => setActiveCardId(NaN)}
                             offer={offer}
                             articleClassName="cities__card"
                             imageWrapperClassName="cities__image-wrapper"

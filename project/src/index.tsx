@@ -9,7 +9,6 @@ import { store } from './store';
 import { checkAuth } from './store/api-actions';
 import 'react-toastify/dist/ReactToastify.css';
 
-// store.dispatch(fetchOffers());
 store.dispatch(checkAuth());
 
 const root = ReactDOM.createRoot(

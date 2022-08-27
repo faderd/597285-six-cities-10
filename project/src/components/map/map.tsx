@@ -31,28 +31,36 @@ function Map({ selectedOfferId, className, offers, currentCity }: MapProps): JSX
   const map = useMap(mapRef, currentCity.location);
 
   useEffect(() => {
-    if (map) {
-      markerGroup.clearLayers();
-      markerGroup.addTo(map);
+    let isMounted = true;
 
-      map.setView({
-        lat: currentCity.location.latitude,
-        lng: currentCity.location.longitude,
-      }, currentCity.location.zoom);
+    if (isMounted) {
+      if (map) {
+        markerGroup.clearLayers();
+        markerGroup.addTo(map);
 
-      offers.forEach((offer: Offer) => {
-        leaflet
-          .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude,
-          }, {
-            icon: (selectedOfferId !== undefined && offer.id === selectedOfferId)
-              ? CURRENT_CUSTOM_ICON
-              : DEFAULT_CUSTOM_ICON,
-          })
-          .addTo(markerGroup);
-      });
+        map.setView({
+          lat: currentCity.location.latitude,
+          lng: currentCity.location.longitude,
+        }, currentCity.location.zoom);
+
+        offers.forEach((offer: Offer) => {
+          leaflet
+            .marker({
+              lat: offer.location.latitude,
+              lng: offer.location.longitude,
+            }, {
+              icon: (selectedOfferId !== undefined && offer.id === selectedOfferId)
+                ? CURRENT_CUSTOM_ICON
+                : DEFAULT_CUSTOM_ICON,
+            })
+            .addTo(markerGroup);
+        });
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom, map, offers, selectedOfferId]);
 
   return (

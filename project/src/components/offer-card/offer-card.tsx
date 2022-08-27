@@ -6,6 +6,7 @@ import BookmarkButton from '../bookmark-button/bookmark-button';
 type OfferCardProps = {
   offer: Offer;
   onMouseOver?: () => void;
+  onMouseOut?: () => void;
   articleClassName: string,
   imageWrapperClassName: string,
   imageWidth: string,
@@ -13,10 +14,11 @@ type OfferCardProps = {
   cardInfoClassName: string,
 };
 
-function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName, imageWidth, imageHeight, cardInfoClassName }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, onMouseOver, onMouseOut, articleClassName, imageWrapperClassName, imageWidth, imageHeight, cardInfoClassName }: OfferCardProps): JSX.Element {
+  const rating = Math.round(offer.rating);
 
   return (
-    <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} >
+    <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} onMouseOut={onMouseOut} >
       {
         offer.isPremium && (<div className="place-card__mark"><span>Premium</span></div>)
       }
@@ -41,7 +43,7 @@ function OfferCard({ offer, onMouseOver, articleClassName, imageWrapperClassName
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${offer.rating / 5 * 100}%` }}></span>
+            <span style={{ width: `${rating / 5 * 100}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
