@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { generatePath } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { APIRoute, FavoriteActionStatus } from '../const';
-import { dropToken, saveToken } from '../sevices/token';
+import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { Offer, Offers } from '../types/offer';
 import { Reviews, Review, SubmitReview } from '../types/review';
@@ -83,16 +84,20 @@ export const toggleFavoriteOffer = createAsyncThunk<void, { offerId: string, act
   },
 );
 
-export const submitReview = createAsyncThunk<Review, SubmitReview, {
+export const submitReview = createAsyncThunk<Review | undefined, SubmitReview, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/submitReview',
   async ({ offerId, review }, { dispatch, extra: api }) => {
-    const { data } = await api.post<Review>(generatePath(APIRoute.Reviews, { offerId: offerId }), review);
-    dispatch(fetchOfferReviews(offerId));
-    return data;
+    try {
+      const { data } = await api.post<Review>(generatePath(APIRoute.Reviews, { offerId: offerId }), review);
+      dispatch(fetchOfferReviews(offerId));
+      return data;
+    } catch {
+      toast.warn('Error submitting review');
+    }
   },
 );
 
