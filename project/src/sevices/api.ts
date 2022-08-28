@@ -3,12 +3,12 @@ import { getToken } from './token';
 import {StatusCodes} from 'http-status-codes';
 import {toast} from 'react-toastify';
 
-const statusCodeMapping: Set<StatusCodes> = new Set([
+const STATUS_CODES_MAPPING: Set<StatusCodes> = new Set([
   StatusCodes.BAD_REQUEST,
   StatusCodes.NOT_FOUND,
 ]);
 
-const shouldDisplayError = (response: AxiosResponse) => statusCodeMapping.has(response.status);
+const shouldDisplayError = (response: AxiosResponse) => STATUS_CODES_MAPPING.has(response.status);
 
 const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
