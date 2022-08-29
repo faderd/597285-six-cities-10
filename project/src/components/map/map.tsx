@@ -6,14 +6,14 @@ import { City, Offer, Offers } from '../../types/offer';
 
 const DEFAULT_CUSTOM_ICON = leaflet.icon({
   iconUrl: '../img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
 });
 
 const CURRENT_CUSTOM_ICON = leaflet.icon({
   iconUrl: '../img/pin-active.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
 });
 
 type MapProps = {
