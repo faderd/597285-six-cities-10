@@ -31,8 +31,6 @@ function LoginScreen(): JSX.Element {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       }));
-
-      navigate(-1);
     }
   };
 
