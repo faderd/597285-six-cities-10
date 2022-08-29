@@ -13,12 +13,6 @@ export enum AuthorizationStatus {
 
 export const RATING_LEVELS = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
 
-export enum MapStartLocation {
-  Latitude = 52.37454,
-  Longitude = 4.897976,
-  Zoom = 12,
-}
-
 export const LOCATIONS = [
   {
     name: 'Paris',
