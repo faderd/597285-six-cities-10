@@ -80,6 +80,9 @@ export const appData = createSlice({
         state.offers = action.payload;
         state.isDataLoaded = true;
       })
+      .addCase(fetchOffers.rejected, (state) => {
+        state.isDataLoaded = true;
+      })
       .addCase(fetchOffer.pending, (state) => {
         state.isDataLoaded = false;
       })
@@ -87,6 +90,9 @@ export const appData = createSlice({
         if (!state.offers.find((offer) => offer.id === action.payload.id)) {
           state.offers.push(action.payload);
         }
+        state.isDataLoaded = true;
+      })
+      .addCase(fetchOffer.rejected, (state) => {
         state.isDataLoaded = true;
       });
   },

@@ -13,26 +13,23 @@ import { getIsDataLoadedStatus, getOfferById } from '../../store/app-data/select
 import { isUserAuthorized } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { Offer } from '../../types/offer';
 
 const NUMBERS_OF_IMAGES = 6;
 
 function PropertyScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const isDataLoaded = useAppSelector(getIsDataLoadedStatus);
-  const offerId = useParams().id;
-  const offer = useAppSelector(getOfferById(offerId));
+  const offerId = useParams().id as string;
+  const offer = useAppSelector(getOfferById(offerId)) as Offer;
   const isAuthorized = useAppSelector(isUserAuthorized);
 
   useEffect(() => {
-    if (offerId && !offer) {
-      dispatch(fetchOffer(offerId));
-    }
+    dispatch(fetchOffer(offerId as string));
   }, [dispatch, offer, offerId]);
 
   useEffect(() => {
-    if (offerId) {
-      dispatch(fetchNearbyOffers(offerId));
-    }
+    dispatch(fetchNearbyOffers(offerId as string));
 
     return () => {
       // очистим store при размонтировании компонента
@@ -40,7 +37,7 @@ function PropertyScreen(): JSX.Element {
     };
   }, [dispatch, offerId]);
 
-  if (!offerId || offer === undefined) {
+  if (isDataLoaded && (!offerId || offer === undefined)) {
     return (<NotFoundScreen />);
   }
 
