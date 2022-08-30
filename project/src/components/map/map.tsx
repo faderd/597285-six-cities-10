@@ -67,6 +67,7 @@ function Map({ selectedOfferId, className, offers, currentCity }: MapProps): JSX
     <section
       className={`${className} map`}
       ref={mapRef}
+      data-testid="map"
     />
   );
 }
