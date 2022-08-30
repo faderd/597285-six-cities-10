@@ -11,6 +11,7 @@ import { State } from '../../types/state';
 import { Offers } from '../../types/offer';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { getInitialStateAppData } from '../../store/app-data/app-data';
+import { getInitialStateUserProcess } from '../../store/user-process/user-process';
 import { Provider } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
@@ -30,8 +31,8 @@ const history = createMemoryHistory();
 
 describe('Component: BookmarkButton', () => {
   const store = mockStore({
-    USER: { authorizationStatus: AuthorizationStatus.NoAuth },
-    DATA: { ...getInitialStateAppData(), isDataLoaded: true, offers: offers, nearbyOffers: offers, favoriteOffers: offers },
+    USER: { ...getInitialStateUserProcess(), authorizationStatus: AuthorizationStatus.NoAuth },
+    DATA: { ...getInitialStateAppData() },
   });
 
   it('should render correctly', () => {

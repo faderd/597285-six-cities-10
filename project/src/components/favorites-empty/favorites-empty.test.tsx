@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { createAPI } from '../../services/api';
-import { GroupedFavoritesOffers } from '../../types/offer';
-import { makeFakeGroupedFavoritesOffers } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
-import FavoriteLocationList from './favorite-location-list';
+import FavoritesEmpty from './favorites-empty';
 import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../../types/state';
@@ -23,35 +21,22 @@ const mockStore = configureMockStore<
 >(middleWares);
 
 const history = createMemoryHistory();
-const groupedFavoritesOffers: GroupedFavoritesOffers = makeFakeGroupedFavoritesOffers();
 
 const store = mockStore({
   USER: { ...getInitialStateUserProcess() },
-  DATA: { ...getInitialStateAppData() },
+  DATA: { ...getInitialStateAppData(), isDataLoaded: true},
 });
 
-describe('Component: FavoriteLocationList', () => {
+describe('Component: FavoritesEmpty', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <FavoriteLocationList groupedFavoritesOffers={groupedFavoritesOffers} />
+          <FavoritesEmpty />
         </HistoryRouter>
       </Provider>
     );
 
-    expect(screen.getByText(/Paris/i)).toBeInTheDocument();
-  });
-
-  it('should list empty when []', () => {
-    render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <FavoriteLocationList groupedFavoritesOffers={[]} />
-        </HistoryRouter>
-      </Provider>
-    );
-
-    expect(screen.queryByText(/Paris/i)).not.toBeInTheDocument();
+    expect(screen.getByText('Nothing yet saved.')).toBeInTheDocument();
   });
 });
