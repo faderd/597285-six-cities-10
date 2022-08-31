@@ -27,7 +27,7 @@ export const makeFakeOffers = (): Offers => ([{
     'https://10.react.pages.academy/static/hotel/11.jpg',
     'https://10.react.pages.academy/static/hotel/4.jpg'
   ],
-  title: name.title(),
+  title: 'Fake offer title',
   isFavorite: false,
   isPremium: false,
   rating: 3.3,

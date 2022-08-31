@@ -8,7 +8,7 @@ type PageHeaderProps = {
 
 function PageHeader({ isMainScreen }: PageHeaderProps): JSX.Element {
   return (
-    <header className="header">
+    <header className="header" data-testid="page-header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
