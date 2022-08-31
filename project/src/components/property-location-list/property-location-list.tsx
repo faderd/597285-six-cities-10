@@ -6,7 +6,7 @@ import OfferCard from '../offer-card/offer-card';
 function PropertyLocationList(): JSX.Element {
   const offers = useAppSelector(getNearbyOffers());
   return (
-    <div className="near-places__list places__list">
+    <div className="near-places__list places__list" data-testid="property-location-list">
       {
         offers.map((offer: Offer) => (
           <OfferCard

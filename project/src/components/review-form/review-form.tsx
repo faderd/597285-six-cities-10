@@ -5,7 +5,7 @@ import { submitReview } from '../../store/api-actions';
 
 const INITIAL_RATING = 0;
 
-enum CommentLength {
+export enum CommentLength {
   Min = 50,
   Max = 300,
 }
