@@ -5,7 +5,7 @@ import { storeSortingType } from '../../store/app-data/app-data';
 import { getSortingType } from '../../store/app-data/selectors';
 import classNames from 'classnames';
 
-const SORTING_TYPES = [
+export const SORTING_TYPES = [
   { value: SortingType.Popular, label: 'Popular' },
   { value: SortingType.PriceLowToHigh, label: 'Price: low to high' },
   { value: SortingType.PriceHighToLow, label: 'Price: high to low' },
@@ -25,6 +25,7 @@ function SortingForm(): JSX.Element {
         className="places__sorting-type"
         tabIndex={0}
         onClick={() => setIsPlacesSortingOpened(!isPlacesSortingOpened)}
+        data-testid="sort-button"
       >
         <span>{getSortingTypeLabel()}</span>
         <svg className="places__sorting-arrow" width="7" height="4">

@@ -1,6 +1,7 @@
 import { internet, name } from 'faker';
+import { NUMBER_OF_REVIEWS } from '../const';
 import { GroupedFavoritesOffers, Offers } from '../types/offer';
-import { Review } from '../types/review';
+import { Review, Reviews } from '../types/review';
 
 export const makeFakeOffers = (): Offers => ([{
   city: {
@@ -127,3 +128,24 @@ export const makeFakeReview = (): Review => (
     }
   }
 );
+
+export const makeFakeReviews = (): Reviews => {
+  const reviews: Reviews = [];
+  for (let index = 0; index < NUMBER_OF_REVIEWS + 1; index++) {
+    reviews.push(
+      {
+        'id': index + 1,
+        'user': {
+          'id': 18,
+          'isPro': true,
+          'name': 'Sophie',
+          'avatarUrl': 'https://10.react.pages.academy/static/avatar/9.jpg'
+        },
+        'rating': 4,
+        'comment': 'Home is amazing. It\'s like staying in a museum. The rooms, furnishings and artworks are incredible. The views of My Vesuvius',
+        'date': '2022-05-25T12:25:36.939Z'
+      }
+    );
+  }
+  return reviews;
+};
