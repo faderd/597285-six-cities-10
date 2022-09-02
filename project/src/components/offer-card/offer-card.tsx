@@ -18,7 +18,7 @@ function OfferCard({ offer, onMouseOver, onMouseOut, articleClassName, imageWrap
   const rating = Math.round(offer.rating);
 
   return (
-    <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} onMouseOut={onMouseOut} >
+    <article className={`${articleClassName} place-card`} onMouseOver={onMouseOver} onMouseOut={onMouseOut} data-testid="offer-card">
       {
         offer.isPremium && (<div className="place-card__mark"><span>Premium</span></div>)
       }

@@ -47,6 +47,7 @@ describe('Component: OfferCard', () => {
       </Provider>
     );
 
+    expect(screen.getByTestId('offer-card')).toBeInTheDocument();
     expect(screen.getByAltText('Place')).toBeInTheDocument();
     expect(screen.getByText('€654')).toBeInTheDocument();
     expect(screen.getByText('Fake offer title')).toBeInTheDocument();

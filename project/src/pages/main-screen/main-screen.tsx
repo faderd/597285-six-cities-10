@@ -46,7 +46,7 @@ function MainScreen(): JSX.Element {
 
       <PageHeader isMainScreen />
 
-      <main className={`page__main page__main--index ${pageMainClass}`}>
+      <main className={`page__main page__main--index ${pageMainClass}`} data-testid="main-screen">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <LocationsList />
