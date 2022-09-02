@@ -47,7 +47,7 @@ export const makeFakeOffers = (): Offers => ([{
     isPro: true,
     avatarUrl: internet.avatar(),
   },
-  description: 'Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed.',
+  description: 'Fake description.',
   location: {
     latitude: 48.843610000000005,
     longitude: 2.338499,

@@ -26,7 +26,7 @@ function Reviews({ offerId }: ReviewProps): JSX.Element {
 
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviewsCount}</span></h2>
+      <h2 className="reviews__title" data-testid="reviews">Reviews &middot; <span className="reviews__amount">{reviewsCount}</span></h2>
 
       <ul className="reviews__list">
         {

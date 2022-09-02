@@ -25,7 +25,9 @@ function PropertyScreen(): JSX.Element {
   const isAuthorized = useAppSelector(isUserAuthorized);
 
   useEffect(() => {
-    dispatch(fetchOffer(offerId as string));
+    if (offerId && !offer) {
+      dispatch(fetchOffer(offerId as string));
+    }
   }, [dispatch, offer, offerId]);
 
   useEffect(() => {
@@ -52,7 +54,7 @@ function PropertyScreen(): JSX.Element {
 
       <PageHeader />
 
-      <main className="page__main page__main--property">
+      <main className="page__main page__main--property" data-testid="property-screen">
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">

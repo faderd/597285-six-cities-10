@@ -39,6 +39,7 @@ describe('Component: ReviewForm', () => {
       </Provider>
     );
 
+    expect(screen.getByTestId('review-form')).toBeInTheDocument();
     expect(screen.getByLabelText('Your review')).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'terribly' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'badly' })).toBeInTheDocument();

@@ -28,7 +28,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
     rating > 0;
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+    <form className="reviews__form form" action="#" method="post" data-testid="review-form" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
       if (validate()) {
         setSubmitting(true);

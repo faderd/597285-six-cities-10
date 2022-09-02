@@ -39,6 +39,7 @@ describe('Component: Reviews', () => {
       </Provider>
     );
 
+    expect(screen.getByTestId('reviews')).toBeInTheDocument();
     expect(screen.getByRole('list')).toBeInTheDocument();
     expect(screen.getAllByRole('listitem').length).toBe(NUMBER_OF_REVIEWS);
   });
