@@ -43,9 +43,9 @@ export const makeFakeOffers = (): Offers => ([{
   ],
   host: {
     id: 25,
-    name: name.firstName(),
+    name: 'Name',
     isPro: true,
-    avatarUrl: internet.avatar(),
+    avatarUrl: 'https://cdn.fakercloud.com/avatars/uxalex_128.jpg',
   },
   description: 'Fake description.',
   location: {
@@ -116,15 +116,15 @@ export const makeFakeGroupedFavoritesOffers = (): GroupedFavoritesOffers => ([{
 
 export const makeFakeReview = (): Review => (
   {
-    'comment': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    'date': 'Wed Aug 31 2022 22:33:25 GMT+0300 (Москва, стандартное время)',
-    'id': 1,
-    'rating': 4,
-    'user': {
-      'avatarUrl': 'img/1.png',
-      'id': 1,
-      'isPro': false,
-      'name': 'Oliver.conner'
+    comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    date: 'Wed Aug 31 2022 22:33:25 GMT+0300 (Москва, стандартное время)',
+    id: 1,
+    rating: 4,
+    user: {
+      avatarUrl: 'img/1.png',
+      id: 1,
+      isPro: false,
+      name: 'Oliver.conner'
     }
   }
 );
@@ -190,11 +190,11 @@ export const makeFakeFavoriteOffers = (): Offers => ([{
   ],
   host: {
     id: 25,
-    name: name.firstName(),
+    name: 'Name',
     isPro: true,
-    avatarUrl: internet.avatar(),
+    avatarUrl: 'https://cdn.fakercloud.com/avatars/uxalex_128.jpg',
   },
-  description: 'Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed.',
+  description: 'Fake description.',
   location: {
     latitude: 48.843610000000005,
     longitude: 2.338499,
