@@ -4,17 +4,20 @@ import {redirect} from './redirect';
 import {AppRoute} from '../../const';
 import {State} from '../../types/state';
 import { redirectToPrevious } from '../app-data/action';
-import { createBrowserHistory } from 'history';
 
-const fakeHistory = createBrowserHistory();
-
-// const fakeHistory = {
-//   location: {pathname: ''},
-//   push(path: string) {
-//     this.location.pathname = path;
-//   },
-//   go() {},
-// };
+const fakeHistory = {
+  location: { pathname: '' },
+  prevLocation: {pathname: ''},
+  push(path: string) {
+    this.prevLocation.pathname = this.location.pathname;
+    this.location.pathname = path;
+  },
+  go(delta: number) {
+    if (delta === -1) {
+      this.location.pathname = this.prevLocation.pathname;
+    }
+  },
+};
 
 jest.mock('../../browser-history', () => fakeHistory);
 
@@ -38,7 +41,7 @@ describe('Middleware: redirect', () => {
   });
 
   it('should not to be redirect / because bad action', () => {
-    store.dispatch({type: 'UNKNOWN_ACTION', payload: AppRoute.Main});
-    expect(fakeHistory.location.pathname).not.toBe(AppRoute.Main);
+    store.dispatch({type: 'UNKNOWN_ACTION', payload: AppRoute.Favorites});
+    expect(fakeHistory.location.pathname).not.toBe(AppRoute.Favorites);
   });
 });
